@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a0a3e">
+<meta name="format-detection" content="telephone=no">
+<title>Math Strategies Adventure – Year 2 &amp; 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--c:#FF6B6B;--cw:clamp(40px,9vw,56px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:Nunito,system-ui,-apple-system,sans-serif;color:#2C3E50;
+  background:radial-gradient(ellipse at top,#3d1f7a 0%,#1a0a3e 60%,#0d0520 100%);background-attachment:fixed;
+  min-height:100vh;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  -webkit-tap-highlight-color:transparent}
+button{font-family:inherit;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+#shell{max-width:1000px;margin:0 auto;background:linear-gradient(#FFF5F0,#FFEBDB);border-radius:18px;
+  box-shadow:0 25px 80px rgba(0,0,0,.6);min-height:calc(100vh - 16px);overflow:hidden;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.94);border-bottom:2px solid #FFE0E0;position:sticky;top:0;z-index:10}
+.bar .back{width:46px;height:40px;border:0;border-radius:10px;background:#FF6B6B;color:#fff;font:20px 'Fredoka One',sans-serif;cursor:pointer;flex:none}
+.bar .back.hide{visibility:hidden}
+.bar h1{flex:1;text-align:center;font:clamp(17px,3.6vw,28px) 'Fredoka One',sans-serif;color:var(--c);line-height:1.1}
+.bar .icon{width:44px;height:40px;border:0;border-radius:10px;background:#F3F4F6;font-size:19px;cursor:pointer;flex:none}
+.bar .stars{font:18px 'Fredoka One',sans-serif;color:#F59E0B;text-align:right;line-height:1.1;min-width:64px}
+.bar .stars small{display:block;font:800 13px Nunito,sans-serif;color:#EF4444}
+#app{padding:16px clamp(10px,3vw,26px) 30px;flex:1}
+h2{font:22px 'Fredoka One',sans-serif;color:#5B3A2E;margin:14px 0 8px}
+h3{font:18px 'Fredoka One',sans-serif;margin:12px 0 6px}
+.btn{font:18px 'Fredoka One',sans-serif;border:0;border-radius:14px;padding:12px 18px;color:#fff;background:var(--c);cursor:pointer;
+  box-shadow:0 4px 0 rgba(0,0,0,.15);text-decoration:none;display:inline-block;text-align:center}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.btn.ghost{background:#fff;color:#5B3A2E;border:2px solid #f1d5c9}
+.btn.green{background:#22C55E}
+.btn.big{font-size:21px;padding:14px 24px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-top:12px}
+.row.col{flex-direction:column;align-items:stretch}
+.hint{font-size:14px;color:#7c5040;font-weight:700;margin-top:6px}
+.hero{text-align:center;margin:6px 0 12px}
+.title{font:clamp(28px,6vw,46px) 'Fredoka One',sans-serif;color:#FF6B6B;text-shadow:3px 3px 0 #fff,-2px -2px 0 #fff,3px 4px 8px #ffb3a0}
+.sub{color:#7c5040;font-weight:800;font-size:clamp(14px,2.6vw,18px)}
+.card{background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 3px 12px rgba(0,0,0,.06);border:2px solid #f5e6dc;margin:10px 0}
+.lvl{text-align:center}.lvl b{font-family:'Fredoka One';color:#7c5040;margin-right:6px}
+.chip{border:2px solid #e5e7eb;background:#fff;color:#6B7280;border-radius:999px;padding:8px 14px;font:800 15px Nunito,sans-serif;cursor:pointer;margin:3px}
+.chip.on{background:var(--c);border-color:var(--c);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
+.tiles.extras{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.tile{border:0;border-radius:18px;padding:16px 12px;color:#fff;font:22px 'Fredoka One',sans-serif;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.13);text-align:center;transition:transform .12s}
+.tile:hover{transform:translateY(-3px) scale(1.02)}
+.tile .em{font-size:40px;display:block;margin-bottom:2px}
+.tile small{display:block;font:800 13px Nunito,sans-serif;opacity:.95;margin-top:4px}
+.extras .tile{font-size:18px}.extras .tile .em{font-size:32px}
+.foot{text-align:center;margin-top:16px;color:#7c5040;font-weight:800;font-size:13px}
+.foot p{margin-top:10px}
+/* strategy list */
+.scard{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:#fff;border-radius:16px;padding:12px 14px;margin:10px 0;border:2px solid #f5e6dc;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.sem{font-size:38px;text-align:center}
+.sname{font:20px 'Fredoka One',sans-serif;color:var(--c)}
+.sshort{font-weight:700;color:#4B5563;font-size:15px;margin-top:2px}
+.sstat{font-weight:800;color:#059669;font-size:13px;margin-top:4px}
+.sbtns{display:flex;flex-direction:column;gap:8px}
+.sbtns .btn{font-size:16px;padding:9px 14px}
+.tagc{font:800 12px Nunito;background:#FEE2E2;color:#B91C1C;border-radius:999px;padding:2px 8px;vertical-align:middle}
+@media (max-width:620px){.scard{grid-template-columns:44px 1fr}.sbtns{grid-column:1/-1;flex-direction:row}.sbtns .btn{flex:1}}
+/* learn */
+.how .short{font-size:18px;font-weight:800;color:#374151}
+.how ul{margin:8px 0 6px 22px;font-weight:700;color:#4B5563;line-height:1.5}
+.how .when{color:#065f46;font-weight:700}
+.exh{font:16px 'Fredoka One',sans-serif;color:#9CA3AF;text-align:center}
+/* practice */
+.ptop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.prog{position:relative;flex:1;min-width:200px;height:24px;background:#E2E8F0;border-radius:999px;overflow:hidden}
+.prog>div{position:absolute;inset:0 auto 0 0;background:#22C55E;border-radius:999px;transition:width .3s}
+.prog span{position:relative;display:block;text-align:center;font:800 13px/24px Nunito,sans-serif;color:#334155}
+.seg{display:inline-flex;background:#fff;border-radius:999px;border:2px solid #f1d5c9;padding:3px}
+.seg button{border:0;background:none;border-radius:999px;padding:7px 12px;font:800 14px Nunito,sans-serif;color:#6B7280;cursor:pointer}
+.seg button.on{background:var(--c);color:#fff}
+.play{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:860px){.play{grid-template-columns:1fr 330px;align-items:start}.play .side{position:sticky;top:76px}}
+.stag{display:inline-block;background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;padding:4px 12px;font:800 14px Nunito,sans-serif}
+.story{background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:12px 14px;font-size:clamp(17px,3.4vw,21px);font-weight:800;color:#78350F;margin:10px 0;line-height:1.4}
+.problem{font:clamp(32px,7.5vw,56px) 'Fredoka One',sans-serif;text-align:center;color:var(--c);margin:8px 0;word-spacing:4px}
+.problem.small{font-size:clamp(26px,5vw,38px)}
+.qm{color:#CBD5E1}.good{color:#16A34A}
+.abox{display:inline-block;min-width:2.4em;padding:0 .25em;border-bottom:4px solid var(--c);text-align:center;color:#0f172a;line-height:1.15}
+.abox.active{background:#FFF7ED;border-radius:8px 8px 0 0;animation:blink 1.2s infinite}
+@keyframes blink{50%{background:#FFEDD5}}
+.vis{background:#fff;border-radius:14px;padding:8px;margin:10px 0;border:2px dashed #eadbd0;overflow-x:auto}
+.vis svg{width:100%;height:auto;display:block;max-height:320px}
+.vtip{text-align:center;font-weight:800;color:#6B7280;font-size:13px}
+.nlj{font:16px 'Fredoka One',sans-serif}.nlv{font:800 15px Nunito,sans-serif;fill:#334155}.nlv.b{font-weight:900;font-size:17px;fill:#0f172a}
+.nls{font:800 11px Nunito,sans-serif;fill:#64748b}.vl{font:800 15px Nunito,sans-serif;fill:#475569}
+.stTop{font:34px 'Fredoka One',sans-serif;fill:#334155}.stSym{font:34px 'Fredoka One',sans-serif;fill:#EF4444}.stPart{font:22px 'Fredoka One',sans-serif}
+.arT{font:20px 'Fredoka One',sans-serif;fill:#1f2937}
+.eqvis{text-align:center;padding:6px}
+.eql{font:clamp(18px,3.6vw,24px) 'Fredoka One',sans-serif;color:#475569;margin:4px 0}
+.eql.first{color:var(--c)}
+/* vertical layout */
+.vert{display:grid;justify-content:center;column-gap:3px;font-family:'Fredoka One',sans-serif;margin:6px auto}
+.vert .vd{height:calc(var(--cw)*1.05);display:flex;align-items:center;justify-content:center;font-size:calc(var(--cw)*.76)}
+.vert .sign{color:#EF4444}
+.vert .vc{height:calc(var(--cw)*.62);display:flex;align-items:flex-end;justify-content:center;font-size:calc(var(--cw)*.42);color:#EF4444}
+.vert .vc.tap{border:2px dashed #fca5a5;border-radius:8px;cursor:pointer;margin:0 8px;align-items:center}
+.vert .cross{text-decoration:line-through;text-decoration-color:#EF4444;text-decoration-thickness:3px;opacity:.55}
+.vert .vline{height:4px;background:#334155;border-radius:2px;margin:2px 0;grid-column:1/-1}
+.vert .vbox{height:calc(var(--cw)*1.05);border:3px solid #CBD5E1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cw)*.7);background:#fff;margin-top:3px}
+.vert .vbox.active{border-color:var(--c);background:#FFF7ED}
+.po{color:#10B981}.pt{color:#3B82F6}.ph{color:#EF4444}
+/* guided steps */
+.gsteps,.solsteps{list-style:none;display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.gsteps li,.solsteps li{background:#fff;border-radius:12px;padding:10px 14px;border:2px solid #eee}
+.gsteps li.cur{border-color:var(--c);box-shadow:0 0 0 4px rgba(255,140,100,.18)}
+.gsteps li.done,.solsteps li{background:#F0FDF4;border-color:#BBF7D0}
+.gsteps li.todo{color:#9CA3AF;background:#F9FAFB;font-weight:800}
+.gh{font-weight:800;color:#6B7280;font-size:15px;margin-bottom:3px}
+.gq{font:clamp(21px,4.4vw,30px) 'Fredoka One',sans-serif;color:#1f2937}
+.gx{font-weight:800;color:#059669;font-size:14px;margin-top:2px}
+.fill{color:#16A34A}
+.final{font:clamp(20px,4vw,26px) 'Fredoka One',sans-serif;text-align:center;color:#16A34A;margin:10px 0}
+.solh{font:17px 'Fredoka One',sans-serif;color:#7c5040;text-align:center;margin-top:6px}
+/* keypad + feedback */
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:10px auto 0}
+.key{height:clamp(52px,10vw,62px);border:0;border-radius:14px;background:#4ECDC4;color:#fff;font:28px 'Fredoka One',sans-serif;box-shadow:0 4px 0 #2a9d95;cursor:pointer}
+.key:active{transform:translateY(2px);box-shadow:0 2px 0 #2a9d95}
+.key.fn{background:#94A3B8;box-shadow:0 4px 0 #64748b}
+.key.ok{grid-column:1/-1;background:#22C55E;box-shadow:0 4px 0 #15803d;font-size:24px}
+.fb{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:10px 12px;border:2px solid #FFD93D;font-weight:800;font-size:16px;min-height:68px}
+.fb.ok{border-color:#86EFAC;background:#F0FDF4;color:#166534}
+.fb.bad{border-color:#FCA5A5;background:#FEF2F2;color:#991B1B}
+.fb.info{color:#374151}
+.fb .mascot{width:52px;height:60px;flex:none}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.cf{position:fixed;width:11px;height:11px;border-radius:3px;pointer-events:none;z-index:60;animation:cf 1s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--dx),var(--dy)) rotate(400deg);opacity:0}}
+.toast{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(0);z-index:70;font:clamp(30px,7vw,52px) 'Fredoka One',sans-serif;color:#F59E0B;
+  text-shadow:3px 3px 0 #fff,-3px -3px 0 #fff,3px -3px 0 #fff,-3px 3px 0 #fff;animation:toast 1.9s ease forwards;pointer-events:none;white-space:nowrap}
+@keyframes toast{15%{transform:translate(-50%,-50%) scale(1.1)}25%,80%{transform:translate(-50%,-50%) scale(1)}100%{transform:translate(-50%,-50%) scale(0)}}
+/* results */
+.res{background:#fff;border-radius:12px;padding:10px 14px;margin:6px 0;border:2px solid #BBF7D0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;font:19px 'Fredoka One',sans-serif}
+.res.no{border-color:#FED7AA}
+.res details{flex-basis:100%;font-family:Nunito}.res summary{cursor:pointer;color:#EA580C;font-weight:900}
+.bigscore{text-align:center;font:clamp(40px,9vw,64px) 'Fredoka One',sans-serif;color:var(--c)}
+/* progress */
+.pstats{text-align:center;font-weight:800;color:#7c5040}.pstats .big{font:48px 'Fredoka One',sans-serif;color:#F59E0B}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.badge{background:#F3F4F6;border-radius:14px;padding:10px;text-align:center;opacity:.6}
+.badge.on{background:#FEF3C7;opacity:1;border:2px solid #FBBF24}
+.bem{font-size:30px}.bn{font:15px 'Fredoka One',sans-serif}.bneed{font-size:12px;font-weight:800;color:#6B7280}
+.prow{display:grid;grid-template-columns:minmax(150px,1.3fr) 2fr 60px auto;gap:8px;align-items:center;margin:5px 0;font-weight:800;font-size:14px}
+.pbar{height:12px;background:#E5E7EB;border-radius:6px;overflow:hidden}.pbar i{display:block;height:100%}
+.tg{font-size:12px;border-radius:999px;padding:2px 8px;white-space:nowrap}.tg.good{background:#DCFCE7;color:#166534}.tg.warn{background:#FFEDD5;color:#9A3412}
+@media (max-width:620px){.prow{grid-template-columns:1fr 70px 50px}.prow .tg{grid-column:1/-1}}
+.ttg{border-collapse:collapse;margin:6px auto;font-weight:900;font-size:13px}
+.ttg td,.ttg th{width:30px;height:28px;text-align:center;border:2px solid #fff;border-radius:6px}
+.ttg td{background:#E5E7EB;color:#9CA3AF}.ttg td.g{background:#86EFAC;color:#14532d}.ttg td.r{background:#FDBA74;color:#7c2d12}
+.ttg th{color:#7c5040}
+/* worksheet */
+.ws{background:#fff;border-radius:12px;padding:18px;--cw:38px}
+.ws h1{font:26px 'Fredoka One',sans-serif;color:#1f2937;text-align:center}
+.wsmeta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin:10px 0 14px;font-weight:800}
+.wsgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+@media (max-width:560px){.wsgrid{grid-template-columns:1fr}}
+.wsq{border:1.5px solid #e5e7eb;border-radius:10px;padding:10px;display:flex;gap:8px;break-inside:avoid}
+.wsq.space{min-height:150px}
+.wsn{font:18px 'Fredoka One',sans-serif;color:#9CA3AF}
+.wsc{flex:1}
+.wsl{font:22px 'Fredoka One',sans-serif}
+.wss{font-weight:700;font-size:15px;margin-bottom:6px}
+.blank{display:inline-block;min-width:80px;border-bottom:2px solid #334155;color:#DC2626;text-align:center}
+.wst{font-size:12px;color:#9CA3AF;font-weight:800;margin-top:6px}
+.keywrap{display:none}.ans-on .keywrap{display:block}
+.keyl{margin-left:24px;line-height:1.6}.keyl small{display:block;color:#6B7280;font-weight:700}
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;padding:0}
+  #shell{box-shadow:none;border-radius:0;background:#fff;min-height:0;max-width:none}
+  .bar,.noprint{display:none!important}
+  #app{padding:0}
+  .ws{padding:0}
+  .keywrap{display:block!important;break-before:page}
+}
+</style>
+</head>
+<body>
+<div id="shell">
+  <header class="bar">
+    <button class="back" data-act="back" id="backBtn" aria-label="Back">◀</button>
+    <h1 id="title">Math Strategies</h1>
+    <button class="icon" data-act="sound" id="sndBtn" aria-label="Sound">🔊</button>
+    <div class="stars" id="starBox"></div>
+  </header>
+  <main id="app"></main>
+</div>
+<script>
+/* =========================================================
+   Math Strategies Adventure — Year 2 & 3
+   Companion to the Montessori Math Adventure (Prep–Year 1).
+   Plain HTML/JS, no libraries. Progress is saved in this browser.
+   ========================================================= */
+
+/* ---------- STATE ---------- */
+const SAVE_KEY='mathStrategiesAdventure.y23.v1';
+const defState=()=>({stars:0,streak:0,best:0,level:2,muted:false,guided:true,stats:{},tt:{},sets:0});
+const S=defState();
+try{Object.assign(S,JSON.parse(localStorage.getItem(SAVE_KEY)||'{}'));}catch(e){}
+function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));}catch(e){}}
+
+const LEVELS={1:'🌱 Year 2 review',2:'🌟 Year 3',3:'🔥 Year 3 challenge'};
+const LEVEL_DESC={
+  1:'Warm-up: 2-digit numbers to 100 and the ×2, ×5, ×10 facts.',
+  2:'Core Year 3: regrouping with 2-digit numbers and the ×2, ×3, ×4, ×5, ×10 facts.',
+  3:'Stretch: 3-digit numbers, all tables to ×10 (and ×12), and 2-digit × 1-digit.'};
+const TABLES={1:[2,5,10],2:[2,3,4,5,10],3:[2,3,4,5,6,7,8,9,10]};
+const MAXM={1:10,2:10,3:12};
+const OPS={
+  add:{name:'Addition',sym:'+',emoji:'➕',color:'#F59E0B'},
+  sub:{name:'Subtraction',sym:'−',emoji:'➖',color:'#8B5CF6'},
+  mul:{name:'Multiplication',sym:'×',emoji:'✖️',color:'#10B981'},
+  div:{name:'Division',sym:'÷',emoji:'➗',color:'#3B82F6'}};
+const PRAISE=['⭐ Amazing!','🎉 Brilliant!','👏 Well done!','🌟 Superstar!','🚀 Excellent!','💪 You rock!','🌈 Fantastic!'];
+const STEP_PRAISE=['✓ Yes! Next step…','✓ Spot on!','✓ Great thinking!','✓ Correct — keep going!'];
+
+/* ---------- AUDIO (same sounds as the little-learners game) ---------- */
+let audioCtx=null;
+function getCtx(){audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});return audioCtx;}
+function tone(freq=660,dur=.12,type='sine',vol=.04,delay=0){
+  if(S.muted)return;
+  try{const ctx=getCtx(),o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;
+    g.gain.setValueAtTime(.001,ctx.currentTime+delay);g.gain.linearRampToValueAtTime(vol,ctx.currentTime+delay+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+delay+dur);o.connect(g);g.connect(ctx.destination);
+    o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+dur+.05);}catch(e){}
+}
+function sound(k){
+  if(k==='ok'){tone(523,.1,'triangle',.04,0);tone(659,.1,'triangle',.04,.08);tone(784,.18,'triangle',.05,.16);}
+  if(k==='great')[523,659,784,1046].forEach((f,i)=>tone(f,.14,'triangle',.05,i*.09));
+  if(k==='step'){tone(660,.08,'triangle',.04);tone(880,.1,'triangle',.04,.07);}
+  if(k==='bad'){tone(220,.15,'sawtooth',.025);setTimeout(()=>tone(180,.12,'sawtooth',.02),120);}
+  if(k==='tap')tone(440,.05,'sine',.02);
+  if(k==='streak')[659,784,880,1046,1318].forEach((f,i)=>tone(f,.12,'triangle',.05,i*.07));
+}
+
+/* ---------- HELPERS ---------- */
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const H=n=>Math.floor(n/100)%10, T=n=>Math.floor(n/10)%10, O=n=>n%10;
+const len=n=>String(n).length;
+function tries(fn,ok,max=400){let v;for(let i=0;i<max;i++){v=fn();if(ok(v))return v;}return v;}
+const fmtAns=a=>String(a);
+const fmtTyped=s=>s.replace('r',' r ');
+const qPlain=(q,a)=>q.includes('?')?q.replace('?',a):`${q} = ${a}`;
+const qFill=(q,a)=>q.includes('?')?q.replace('?',`<b class="fill">${fmtAns(a)}</b>`):`${q} = <b class="fill">${fmtAns(a)}</b>`;
+const qBox=(q,inner)=>{const b=`<span class="abox active">${inner||'&nbsp;'}</span>`;return q.includes('?')?q.replace('?',b):`${q} = ${b}`;};
+function chain(st,d,n){const a=[st];for(let i=1;i<=n;i++)a.push(st+d*i);return a.join(' → ');}
+function parts(n){const r=[];if(H(n))r.push({v:H(n)*100,p:'h'});if(T(n))r.push({v:T(n)*10,p:'t'});if(O(n))r.push({v:O(n),p:'o'});return r;}
+function isRight(typed,ans){
+  if(typed==='')return false;
+  if(typeof ans==='string'){const n=s=>String(s).toLowerCase().replace(/\s+/g,'').replace(/^0+(?=\d)/,'').replace(/r0+(?=\d)/,'r');return n(typed)===n(ans);}
+  return !typed.includes('r')&&parseInt(typed,10)===ans;
+}
+function P(op,x,y,ans,steps,vis,extra={}){return Object.assign({op,x,y,ans,text:`${x} ${OPS[op].sym} ${y}`,steps,vis},extra);}
+
+/* ---------- NUMBER PICKERS (by level) ---------- */
+function pickAdd(L){
+  return tries(()=>{let a,b;
+    if(L===1){a=rnd(12,68);b=rnd(11,30);} else if(L===2){a=rnd(25,89);b=rnd(14,69);} else {a=rnd(105,699);b=rnd(25,299);}
+    return [a,b];},
+  ([a,b])=>(L===1?a+b<=99:L===2?a+b<=160:a+b<=999)&&(L===1||Math.random()<.25||O(a)+O(b)>=10)&&O(a)+O(b)>0);
+}
+function pickSub(L){
+  return tries(()=>{let a,b;
+    if(L===1){a=rnd(25,99);b=rnd(11,a-6);} else if(L===2){a=rnd(41,99);b=rnd(12,a-6);} else {a=rnd(210,999);b=rnd(105,a-30);}
+    return [a,b];},
+  ([a,b])=>L===1||Math.random()<.25||O(a)<O(b));
+}
+const roundUp=b=>b%100>=98?Math.ceil(b/100)*100:Math.ceil(b/10)*10;
+
+/* ---------- VISUALS ---------- */
+const svgOpen=(W,H)=>`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+const PF={h:['#FEE2E2','#EF4444'],t:['#DBEAFE','#3B82F6'],o:['#D1FAE5','#10B981'],x:['#FEF3C7','#D97706']};
+
+// Empty number line. jumps: [{from,to,label,sub,step}] — only jumps with step<k are drawn.
+function numberLine(jumps,k=99){
+  const vals=[...new Set(jumps.flatMap(j=>[j.from,j.to]))].sort((a,b)=>a-b);
+  const pos={};let x=0;vals.forEach((v,i)=>{if(i)x+=34+16*Math.log2(v-vals[i-1]+1);pos[v]=x;});
+  const W=680,pad=44,base=128,sc=(W-2*pad)/(x||1),Px=v=>pad+pos[v]*sc;
+  const shown=jumps.filter(j=>j.step<k), all=shown.length===jumps.length;
+  let s=svgOpen(W,172)+`<defs>
+    <marker id="nlF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#10B981"/></marker>
+    <marker id="nlB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EF4444"/></marker></defs>`;
+  s+=`<line x1="${pad-28}" y1="${base}" x2="${W-pad+28}" y2="${base}" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>`;
+  shown.forEach(j=>{const x1=Px(j.from),x2=Px(j.to),w=Math.abs(x2-x1),h=Math.min(80,14+w*.45),mx=(x1+x2)/2,fwd=j.to>j.from,col=fwd?'#10B981':'#EF4444';
+    s+=`<path d="M${x1} ${base-4} Q${mx} ${base-4-2*h} ${x2} ${base-4}" fill="none" stroke="${col}" stroke-width="3" marker-end="url(#${fwd?'nlF':'nlB'})"/>`;
+    s+=`<text x="${mx}" y="${base-10-h}" text-anchor="middle" class="nlj" fill="${col}">${j.label}</text>`;
+    if(j.sub)s+=`<text x="${mx}" y="${base+8-h}" text-anchor="middle" class="nls">${j.sub}</text>`;});
+  const start=jumps[0].from,end=jumps[jumps.length-1].to,pts=new Set([start]);shown.forEach(j=>pts.add(j.to));
+  pts.forEach(v=>{const px=Px(v),isS=v===start,isE=all&&v===end;
+    s+=`<circle cx="${px}" cy="${base}" r="${isS||isE?7:5}" fill="${isS?'#3B82F6':isE?'#F59E0B':'#334155'}"/>`;
+    s+=`<text x="${px}" y="${base+28}" text-anchor="middle" class="nlv${isS||isE?' b':''}">${v}</text>`;});
+  return s+'</svg>';
+}
+// Split (partition) tree: groups [{top, parts:[{v,p}]}]
+function splitTree(groups,sym){
+  const W=680,cxs=groups.length===2?[190,490]:[340];let s=svgOpen(W,148);
+  groups.forEach((g,gi)=>{const cx=cxs[gi];
+    s+=`<text x="${cx}" y="42" text-anchor="middle" class="stTop">${g.top}</text>`;
+    const m=g.parts.length;g.parts.forEach((p,pi)=>{const px=cx+(pi-(m-1)/2)*96,py=112,[f,st]=PF[p.p];
+      s+=`<line x1="${cx}" y1="54" x2="${px}" y2="${py-20}" stroke="#CBD5E1" stroke-width="3"/>`;
+      s+=`<rect x="${px-42}" y="${py-20}" width="84" height="40" rx="12" fill="${f}" stroke="${st}" stroke-width="2"/>`;
+      s+=`<text x="${px}" y="${py+8}" text-anchor="middle" class="stPart" fill="${st}">${p.v}</text>`;});});
+  if(groups.length===2)s+=`<text x="340" y="44" text-anchor="middle" class="stSym">${sym}</text>`;
+  return s+'</svg>';
+}
+function groupsVis(m,t){
+  const W=680,per=Math.min(m,5),rows=Math.ceil(m/5),R=Math.min(58,(W-20)/(per*2)-10),gap=R*2+14,Hh=rows*(R*2+34)+10;
+  let s=svgOpen(W,Hh);
+  for(let g=0;g<m;g++){const cx=W/2-(per-1)*gap/2+(g%5)*gap,cy=12+R+Math.floor(g/5)*(R*2+34);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="#ECFDF5" stroke="#10B981" stroke-width="3"/>`;
+    const c=Math.ceil(Math.sqrt(t)),rr=Math.ceil(t/c),sp=Math.min(R*1.3/Math.max(c,rr),22),dr=Math.min(8,sp*.38);
+    for(let i=0;i<t;i++)s+=`<circle cx="${cx+((i%c)-(c-1)/2)*sp}" cy="${cy+(Math.floor(i/c)-(rr-1)/2)*sp}" r="${dr}" fill="#F59E0B"/>`;
+    s+=`<text x="${cx}" y="${cy+R+20}" text-anchor="middle" class="vl">${t}</text>`;}
+  return s+'</svg>';
+}
+function arrayVis(rows,cols,split){
+  const W=680,sp=Math.min(40,520/Math.max(cols-1,1),260/Math.max(rows-1,1)),r=Math.min(13,sp*.36),gx=(cols-1)*sp,x0=(W-gx)/2+30,y0=48,ex=split?16:0;
+  let s=svgOpen(W,y0+(rows-1)*sp+ex+26);
+  s+=`<text x="${x0+gx/2}" y="22" text-anchor="middle" class="vl">${cols} in each row</text>`;
+  s+=`<text x="${x0-26}" y="${y0+((rows-1)*sp+ex)/2+5}" text-anchor="end" class="vl">${rows} rows</text>`;
+  for(let i=0;i<rows;i++)for(let j=0;j<cols;j++)s+=`<circle cx="${x0+j*sp}" cy="${y0+i*sp+(split&&i>=5?ex:0)}" r="${r}" fill="${split&&i>=5?'#F59E0B':'#10B981'}"/>`;
+  if(split){const yl=y0+4.5*sp+ex/2;s+=`<line x1="${x0-18}" y1="${yl}" x2="${x0+gx+18}" y2="${yl}" stroke="#EF4444" stroke-width="3" stroke-dasharray="8 6"/>`;}
+  return s+'</svg>';
+}
+function shareVis(n,d,k){
+  const q=Math.floor(n/d),r=n%d,W=680,pile=k===0?n:r,pileRows=Math.max(1,Math.ceil(pile/15)),pileH=44+pileRows*20;
+  const per=Math.min(d,5),prow=Math.ceil(d/5),R=Math.min(50,(W-20)/(per*2)-12),gap=R*2+16,top0=pileH+8;
+  let s=svgOpen(W,top0+prow*(R*2+16)+6);
+  const pw=Math.max(200,Math.min(pile,15)*20+30);
+  s+=`<rect x="${(W-pw)/2}" y="6" width="${pw}" height="${pileH-8}" rx="12" fill="#FFF7ED" stroke="#FB923C" stroke-width="2" stroke-dasharray="6 4"/>`;
+  s+=`<text x="${W/2}" y="26" text-anchor="middle" class="vl">${k===0?`${n} to share`:(r?`${r} left over`:'All shared! None left over')}</text>`;
+  for(let i=0;i<pile;i++){const row=Math.floor(i/15),rc=Math.min(15,pile-row*15);s+=`<circle cx="${W/2-(rc-1)*10+(i%15)*20}" cy="${44+row*20}" r="7" fill="#F97316"/>`;}
+  for(let g=0;g<d;g++){const cx=W/2-(per-1)*gap/2+(g%5)*gap,cy=top0+R+Math.floor(g/5)*(R*2+16);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="#EFF6FF" stroke="#3B82F6" stroke-width="3"/>`;
+    if(k>=1){const c=Math.ceil(Math.sqrt(q)),rr=Math.ceil(q/c),sp=Math.min(R*1.3/Math.max(c,rr),20),dr=Math.min(7,sp*.38);
+      for(let i=0;i<q;i++)s+=`<circle cx="${cx+((i%c)-(c-1)/2)*sp}" cy="${cy+(Math.floor(i/c)-(rr-1)/2)*sp}" r="${dr}" fill="#F97316"/>`;}}
+  return s+'</svg>';
+}
+function areaVis(a,m,k){
+  const tv=a-a%10,ov=a%10,W=680,x0=80,total=540;let wT=Math.round(total*tv/a),wO=total-wT;if(wO<140){wO=140;wT=total-140;}
+  const y0=40,h=110;let s=svgOpen(W,y0+h+(k>2?52:16));
+  s+=`<rect x="${x0}" y="${y0}" width="${wT}" height="${h}" fill="#DBEAFE" stroke="#3B82F6" stroke-width="3"/>`;
+  s+=`<rect x="${x0+wT}" y="${y0}" width="${wO}" height="${h}" fill="#D1FAE5" stroke="#10B981" stroke-width="3"/>`;
+  s+=`<text x="${x0+wT/2}" y="${y0-10}" text-anchor="middle" class="stPart" fill="#3B82F6">${tv}</text>`;
+  s+=`<text x="${x0+wT+wO/2}" y="${y0-10}" text-anchor="middle" class="stPart" fill="#10B981">${ov}</text>`;
+  s+=`<text x="${x0-14}" y="${y0+h/2+8}" text-anchor="end" class="stPart" fill="#EF4444">${m}</text>`;
+  s+=`<text x="${x0+wT/2}" y="${y0+h/2+7}" text-anchor="middle" class="arT">${tv} × ${m}${k>0?` = ${tv*m}`:''}</text>`;
+  s+=`<text x="${x0+wT+wO/2}" y="${y0+h/2+7}" text-anchor="middle" class="arT">${ov} × ${m}${k>1?` = ${ov*m}`:''}</text>`;
+  if(k>2)s+=`<text x="${x0+total/2}" y="${y0+h+36}" text-anchor="middle" class="arT">${tv*m} + ${ov*m} = ${a*m}</text>`;
+  return s+'</svg>';
+}
+function eqVis(lines,k,base=1){return `<div class="eqvis">${lines.map((l,i)=>i<base+k?`<div class="eql${i===0?' first':''}">${l}</div>`:'').join('')}</div>`;}
+
+/* ---------- VERTICAL (COLUMN) METHOD ---------- */
+const PLACE=['ones','tens','hundreds','thousands'],PCLS=['po','pt','ph','ph'];
+function digitsR(num,n){const s=String(num),r=[];for(let i=0;i<n;i++){const j=s.length-1-i;r.push(j>=0?+s[j]:null);}return r;}
+function vertAdd(a,b){
+  const ans=a+b,real=Math.max(len(a),len(b)),n=Math.max(real,len(ans));
+  const A=digitsR(a,n),B=digitsR(b,n),carries=new Array(n+1).fill(0),steps=[],ansStep=[];let c=0;
+  for(let i=0;i<real;i++){const x=A[i]||0,y=B[i]||0,s=x+y+c,last=i===real-1;carries[i]=c;
+    steps.push({hint:`Add the ${PLACE[i]} column${c?' — remember the carried 1!':''}`,q:c?`${x} + ${y} + ${c}`:`${x} + ${y}`,a:s,
+      explain:s>=10&&!last?`${s} → write ${s%10}, carry 1 to the ${PLACE[i+1]}`:`write ${s}`});c=s>=10?1:0;}
+  for(let i=0;i<n;i++)ansStep[i]=Math.min(i,real-1);
+  return {type:'add',sym:'+',a,b,ans,n,A,B,carries,steps,ansStep,ansD:digitsR(ans,n)};
+}
+function vertSub(a,b){
+  const ans=a-b,n=Math.max(len(a),len(b)),A=digitsR(a,n),B=digitsR(b,n),newTop=new Array(n).fill(null),revealAt=new Array(n).fill(0),steps=[],ansStep=[];
+  let borrow=0;
+  for(let i=0;i<n;i++){const orig=A[i]||0,y=B[i]||0;let t=orig-borrow;const lent=borrow>0;let traded=false;
+    if(t<y){t+=10;traded=true;borrow=1;}else borrow=0;
+    if(lent||traded){newTop[i]=t;revealAt[i]=lent?i-1:i;}
+    steps.push({hint:traded?`Not enough ${PLACE[i]} to take away ${y}. Trade 1 from the ${PLACE[i+1]} — so ${orig-(lent?1:0)} becomes ${t}`:(lent?`The ${PLACE[i]} gave one away, so ${orig} is now ${t}. Subtract`:`Subtract the ${PLACE[i]} column`),
+      q:`${t} − ${y}`,a:t-y,explain:`write ${t-y}`});ansStep[i]=i;}
+  return {type:'sub',sym:'−',a,b,ans,n,A,B,newTop,revealAt,steps,ansStep,ansD:digitsR(ans,n)};
+}
+function vertMul(a,m){
+  const ans=a*m,n=Math.max(len(a),len(ans)),A=digitsR(a,n),B=digitsR(m,n),carries=new Array(n+1).fill(0),steps=[],ansStep=[];
+  const x0=A[0],s0=x0*m,c=Math.floor(s0/10);
+  steps.push({hint:`Multiply the ones: ${x0} × ${m}`,q:`${x0} × ${m}`,a:s0,explain:s0>=10?`${s0} → write ${s0%10}, carry ${c} to the tens`:`write ${s0}`});
+  carries[1]=c;const x1=A[1],s1=x1*m+c;
+  steps.push({hint:`Multiply the tens: ${x1} × ${m}${c?`, then add the carried ${c}`:''}`,q:c?`${x1} × ${m} + ${c}`:`${x1} × ${m}`,a:s1,explain:`write ${s1}`});
+  for(let i=0;i<n;i++)ansStep[i]=Math.min(i,1);
+  return {type:'mul',sym:'×',a,b:m,ans,n,A,B,carries,steps,ansStep,ansD:digitsR(ans,n)};
+}
+// k = number of steps revealed; inter = {typed, carry} for "on my own" mode
+function vertHTML(v,k=99,inter=null){
+  const n=v.n;let h=`<div class="vert" style="grid-template-columns:repeat(${n+1},var(--cw))"><div class="vc"></div>`;
+  for(let i=n-1;i>=0;i--){let t='',attr='',cls='vc';
+    if(v.type==='sub'){if(!inter&&v.newTop[i]!==null&&k>v.revealAt[i])t=v.newTop[i];}
+    else if(inter){if(i>0){attr=` data-carry="${i}"`;cls+=' tap';t=inter.carry[i]||'';}}
+    else if(v.carries[i]&&k>=i)t=v.carries[i];
+    h+=`<div class="${cls}"${attr}>${t}</div>`;}
+  h+='<div class="vd"></div>';
+  for(let i=n-1;i>=0;i--){const crossed=v.type==='sub'&&!inter&&v.newTop[i]!==null&&k>v.revealAt[i];h+=`<div class="vd ${PCLS[i]}${crossed?' cross':''}">${v.A[i]??''}</div>`;}
+  h+=`<div class="vd sign">${v.sym}</div>`;
+  for(let i=n-1;i>=0;i--)h+=`<div class="vd ${PCLS[i]}">${v.B[i]??''}</div>`;
+  h+='<div class="vline"></div><div class="vd"></div>';
+  for(let i=n-1;i>=0;i--){
+    if(inter){const s=inter.typed,ch=i<s.length?s[s.length-1-i]:'';h+=`<div class="vbox ${PCLS[i]}${i===s.length?' active':''}">${ch}</div>`;}
+    else{const d=v.ansD[i],show=d!==null&&k>v.ansStep[i];h+=`<div class="vd ${PCLS[i]}">${show?d:''}</div>`;}}
+  return h+'</div>';
+}
+
+/* ---------- STRATEGIES ---------- */
+function jumpSteps(op,a,b){
+  const sg=op==='add'?1:-1,sy=op==='add'?'+':'−',steps=[],jumps=[];let cur=a;
+  [[H(b)*100,100,'hundred'],[T(b)*10,10,'ten'],[O(b),1,'one']].forEach(([v,unit,word])=>{
+    if(!v)return;const cnt=v/unit,st=steps.length;
+    if(unit>1&&cnt<=6){for(let i=0;i<cnt;i++)jumps.push({from:cur+sg*unit*i,to:cur+sg*unit*(i+1),label:`${sy}${unit}`,step:st});}
+    else jumps.push({from:cur,to:cur+sg*v,label:`${sy}${v}`,step:st});
+    const nxt=cur+sg*v;
+    steps.push({hint:`Jump ${op==='add'?'forward':'back'} ${cnt} ${word}${cnt>1?'s':''} from ${cur}`,q:`${cur} ${sy} ${v}`,a:nxt,explain:unit>1&&cnt<=6?chain(cur,sg*unit,cnt):`${cur} → ${nxt}`});
+    cur=nxt;});
+  return P(op,a,b,cur,steps,k=>numberLine(jumps,k));
+}
+
+const STRATS=[
+/* ===== ADDITION ===== */
+{key:'add.jump',op:'add',emoji:'🐸',name:'Jump strategy',
+ short:'Hop along a number line: big jumps of tens first, then the ones.',
+ how:['Start at the bigger number.','Split the other number into tens and ones.','Jump the tens (+10, +10…), then jump the ones.','Where you land is the answer!'],
+ when:'adding a 2-digit number in your head.',
+ gen(L){let [a,b]=pickAdd(L);if(a<b)[a,b]=[b,a];return jumpSteps('add',a,b);}},
+{key:'add.split',op:'add',emoji:'✂️',name:'Split strategy',
+ short:'Split both numbers into hundreds, tens and ones. Add the matching parts, then put them back together.',
+ how:['Split each number by place value (47 → 40 + 7).','Add the tens together.','Add the ones together.','Add the two answers.'],
+ when:'any 2- or 3-digit addition. It is like the column method, but in your head.',
+ gen(L){const [a,b]=pickAdd(L),steps=[],sums=[];
+  [['hundreds',100],['tens',10],['ones',1]].forEach(([w,u])=>{const x=Math.floor(a/u)%10*u,y=Math.floor(b/u)%10*u;if(!x&&!y)return;
+    steps.push({hint:`Add the ${w}`,q:`${x} + ${y}`,a:x+y});sums.push(x+y);});
+  steps.push({hint:'Put the parts back together',q:sums.join(' + '),a:a+b});
+  return P('add',a,b,a+b,steps,()=>splitTree([{top:a,parts:parts(a)},{top:b,parts:parts(b)}],'+'));}},
+{key:'add.vertical',op:'add',emoji:'📐',name:'Vertical (column) strategy',
+ short:'Line up the numbers in columns. Add the ones first, then the tens. Carry when a column makes 10 or more.',
+ how:['Write one number under the other — ones under ones, tens under tens.','Add the ones column first.','If it makes 10 or more, write the ones and carry the 1 ten to the tens column.','Add the tens column (plus any carry), then the hundreds.'],
+ when:'bigger numbers, or when you want to write it down neatly.',
+ gen(L){const [a,b]=tries(()=>pickAdd(L),([a,b])=>len(a)===len(b));const v=vertAdd(a,b);return P('add',a,b,a+b,v.steps,k=>vertHTML(v,k),{vertical:v});}},
+{key:'add.bridge',op:'add',emoji:'🔟',name:'Make a ten (bridge to 10)',
+ short:'Use part of the second number to reach the next tidy ten, then add what is left.',
+ how:['Look at the ones. How many more to make the next ten?','Split the second number: that much + the rest.','Jump to the tidy ten.','Add the rest.'],
+ when:'numbers like 38 + 7 where the ones go past a ten.',
+ gen(L){const [a,b]=tries(()=>{let a,b;if(L===1){a=rnd(12,78);b=rnd(3,9);}else if(L===2){a=rnd(15,85);b=Math.random()<.5?rnd(4,9):rnd(13,39);}else{a=rnd(105,895);b=Math.random()<.5?rnd(4,9):rnd(13,49);}return [a,b];},
+   ([a,b])=>O(a)>=5&&b>10-O(a)&&O(a)+O(b)>10&&a+b<=(L===1?99:L===2?140:999));
+  const need=10-O(a),T1=a+need,rest=b-need;
+  return P('add',a,b,a+b,[{hint:`How many more does ${a} need to make ${T1}?`,q:`${a} + ? = ${T1}`,a:need,explain:`${a} + ${need} = ${T1}`},
+    {hint:`${b} = ${need} + ${rest}. Now add the ${rest} that is left`,q:`${T1} + ${rest}`,a:a+b}],
+    k=>numberLine([{from:a,to:T1,label:`+${need}`,step:0},{from:T1,to:a+b,label:`+${rest}`,step:1}],k));}},
+{key:'add.comp',op:'add',emoji:'🎯',name:'Round and adjust',
+ short:'Numbers like 9, 19, 29 or 99 are close to a tidy number. Add the tidy number, then fix it.',
+ how:['Round the second number up to a tidy ten (29 → 30).','Add the tidy number — it is easy!','You added a little too much, so take it away again.'],
+ when:'adding numbers that end in 8 or 9.',
+ gen(L){const [a,b]=tries(()=>{let a,b;if(L===1){b=pick([9,19,29,39]);a=rnd(12,60);}else if(L===2){b=rnd(1,6)*10+pick([8,9]);a=rnd(15,80);}else{b=pick([99,98,199,198,299,49,59,69,79]);a=rnd(110,700);}return [a,b];},
+   ([a,b])=>a+b<=(L===3?999:L===2?160:99));
+  const R=roundUp(b),d=R-b;
+  return P('add',a,b,a+b,[{hint:`${b} is close to ${R}. Add ${R} instead`,q:`${a} + ${R}`,a:a+R,explain:`That is ${d} too many`},
+    {hint:`You added ${d} too many, so take ${d} away`,q:`${a+R} − ${d}`,a:a+b}],
+    k=>numberLine([{from:a,to:a+R,label:`+${R}`,step:0},{from:a+R,to:a+b,label:`−${d}`,step:1}],k));}},
+{key:'add.double',op:'add',emoji:'👯',name:'Doubles and near doubles',
+ short:'If the two numbers are nearly the same, double the smaller one and add the little bit extra.',
+ how:['Notice the numbers are close (like 15 + 16).','Double the smaller number (15 + 15 = 30).','Add the extra (30 + 1 = 31).'],
+ when:'numbers that are only 1, 2 or 3 apart.',
+ gen(L){const s=L===1?rnd(4,15):L===2?rnd(12,45):rnd(35,240),diff=rnd(1,L===3?3:2);let a=s,b=s+diff;if(Math.random()<.5)[a,b]=[b,a];
+  return P('add',a,b,a+b,[{hint:`Double the smaller number, ${s}`,q:`${s} + ${s}`,a:2*s},{hint:`Now add the extra ${diff}`,q:`${2*s} + ${diff}`,a:2*s+diff}],
+    k=>eqVis([`${a} + ${b}`,`= ${s} + ${s} + ${diff}`,`= ${2*s} + ${diff}`,`= ${2*s+diff}`],k,2));}},
+
+/* ===== SUBTRACTION ===== */
+{key:'sub.jump',op:'sub',emoji:'🐸',name:'Jump back strategy',
+ short:'Start at the first number and jump back on a number line: tens first, then ones.',
+ how:['Start at the bigger (first) number.','Split the number you take away into tens and ones.','Jump back the tens (−10, −10…), then jump back the ones.','Where you land is the answer.'],
+ when:'taking away a 2-digit number in your head.',
+ gen(L){const [a,b]=pickSub(L);return jumpSteps('sub',a,b);}},
+{key:'sub.split',op:'sub',emoji:'✂️',name:'Split strategy',
+ short:'Split both numbers by place value. Take tens from tens and ones from ones. Not enough ones? Rename a ten as 10 ones.',
+ how:['Split each number (74 → 70 + 4).','If the top ones are too small, rename: 70 + 4 becomes 60 + 14.','Take away the tens, then the ones.','Add the answers together.'],
+ when:'seeing how place value works when you subtract.',
+ gen(L){const [a,b]=tries(()=>pickSub(L),([a,b])=>{const ren=O(a)<O(b);return (ren?T(a)-1:T(a))>=T(b)&&H(a)>=H(b)&&!(ren&&T(a)===0);});
+  const ren=O(a)<O(b),aH=H(a)*100,aT=T(a)*10-(ren?10:0),aO=O(a)+(ren?10:0),bH=H(b)*100,bT=T(b)*10,bO=O(b),steps=[],res=[];
+  if(aH){steps.push({hint:'Take away the hundreds',q:`${aH} − ${bH}`,a:aH-bH});res.push(aH-bH);}
+  steps.push({hint:ren?`Not enough ones! ${T(a)*10} gives 10 to the ones, so it becomes ${aT}. Take away the tens`:'Take away the tens',q:`${aT} − ${bT}`,a:aT-bT});res.push(aT-bT);
+  steps.push({hint:ren?`The ones are now ${aO} (${O(a)} + 10). Take away the ones`:'Take away the ones',q:`${aO} − ${bO}`,a:aO-bO});res.push(aO-bO);
+  const nz=res.filter(x=>x);if(nz.length>1)steps.push({hint:'Put the parts back together',q:nz.join(' + '),a:a-b});
+  const aParts=[aH&&{v:aH,p:'h'},{v:aT,p:'t'},{v:aO,p:'o'}].filter(Boolean);
+  return P('sub',a,b,a-b,steps,()=>splitTree([{top:a,parts:aParts},{top:b,parts:parts(b)}],'−'));}},
+{key:'sub.vertical',op:'sub',emoji:'📐',name:'Vertical (column) strategy',
+ short:'Line up the columns and start with the ones. If the top digit is too small, trade 1 ten for 10 ones.',
+ how:['Write the bigger number on top, ones under ones.','Start with the ones column.','If the top digit is smaller, trade: cross out 1 ten and add 10 to the ones.','Subtract each column, moving left.'],
+ when:'bigger numbers, or when you need to trade (regroup).',
+ gen(L){const [a,b]=tries(()=>pickSub(L),([a,b])=>len(a)===len(b)&&(L>1||digitsR(a,len(a)).every((d,i)=>d>=digitsR(b,len(a))[i])));
+  const v=vertSub(a,b);return P('sub',a,b,a-b,v.steps,k=>vertHTML(v,k),{vertical:v});}},
+{key:'sub.countup',op:'sub',emoji:'🪜',name:'Count up (find the difference)',
+ short:'When the numbers are close together, start at the smaller number and count up to the bigger one.',
+ how:['Start at the smaller number.','Jump up to the next tidy ten.','Jump up by tens, then the ones, until you reach the bigger number.','Add up all your jumps — that is the difference.'],
+ when:'numbers that are close, like 72 − 68 or 403 − 395.',
+ gen(L){const [a,b]=tries(()=>{let a,b;if(L===1){b=rnd(14,85);a=b+rnd(3,14);}else if(L===2){b=rnd(18,80);a=b+rnd(6,28);}else{b=rnd(120,880);a=b+rnd(8,55);}return [a,b];},
+   ([a,b])=>Math.floor(a/10)!==Math.floor(b/10)&&b%10!==0&&a%10!==0&&(L===3||a<=99));
+  const T1=Math.ceil(b/10)*10,aT=Math.floor(a/10)*10,segs=[[b,T1],[T1,aT],[aT,a]].filter(([x,y])=>y>x),jumps=[],steps=[];
+  segs.forEach(([x,y],i)=>{jumps.push({from:x,to:y,label:`+${y-x}`,step:i});
+    steps.push({hint:i===0?`Start at ${b} (the smaller number). Jump up to the next ten`:(y===a?`Now jump up to ${a}`:`Jump up by tens to ${y}`),q:`${x} + ? = ${y}`,a:y-x});});
+  steps.push({hint:'Add up all your jumps — that is the difference!',q:segs.map(([x,y])=>y-x).join(' + '),a:a-b});
+  return P('sub',a,b,a-b,steps,k=>numberLine(jumps,k));}},
+{key:'sub.comp',op:'sub',emoji:'🎯',name:'Round and adjust',
+ short:'Take away a tidy number like 30 instead of 29, then add the extra 1 back.',
+ how:['Round the number you take away up to a tidy ten (29 → 30).','Take away the tidy number.','You took away too much, so add the extra back.'],
+ when:'taking away numbers that end in 8 or 9.',
+ gen(L){const [a,b]=tries(()=>{let a,b;if(L===1){b=pick([9,19,29,39]);a=rnd(b+5,99);}else if(L===2){b=rnd(1,6)*10+pick([8,9]);a=rnd(b+6,99);}else{b=pick([99,98,199,198,49,59,69,79,89]);a=rnd(b+20,999);}return [a,b];},()=>true);
+  const R=roundUp(b),d=R-b;
+  return P('sub',a,b,a-b,[{hint:`${b} is close to ${R}. Take away ${R} instead`,q:`${a} − ${R}`,a:a-R,explain:`That is ${d} too many taken away`},
+    {hint:`You took away ${d} too many, so add ${d} back`,q:`${a-R} + ${d}`,a:a-b}],
+    k=>numberLine([{from:a,to:a-R,label:`−${R}`,step:0},{from:a-R,to:a-b,label:`+${d}`,step:1}],k));}},
+{key:'sub.bridge',op:'sub',emoji:'🔟',name:'Jump back through ten',
+ short:'Jump back to a tidy ten first, then take away what is left.',
+ how:['Take away just enough to land on a tidy ten (52 − 2 = 50).','Split the number you take away: that much + the rest.','Take away the rest from the tidy ten.'],
+ when:'numbers like 52 − 7 where you go back past a ten.',
+ gen(L){const [a,b]=tries(()=>{let a,b;if(L===1){a=rnd(21,95);b=rnd(3,9);}else if(L===2){a=rnd(31,95);b=Math.random()<.5?rnd(4,9):rnd(13,19);}else{a=rnd(203,985);b=Math.random()<.5?rnd(4,9):rnd(13,29);}return [a,b];},
+   ([a,b])=>O(a)>=1&&O(a)<=5&&O(b)>O(a)&&a-b>0);
+  const aT=a-O(a),rest=b-O(a);
+  return P('sub',a,b,a-b,[{hint:`Jump back to the tidy ten: take away ${O(a)}`,q:`${a} − ${O(a)}`,a:aT},
+    {hint:`${b} = ${O(a)} + ${rest}. Now take away the ${rest} that is left`,q:`${aT} − ${rest}`,a:a-b}],
+    k=>numberLine([{from:a,to:aT,label:`−${O(a)}`,step:0},{from:aT,to:a-b,label:`−${rest}`,step:1}],k));}},
+
+/* ===== MULTIPLICATION ===== */
+{key:'mul.groups',op:'mul',emoji:'🍪',name:'Equal groups',
+ short:'Multiplication means equal groups. 4 × 3 means 4 groups of 3.',
+ how:['Read 4 × 3 as "4 groups of 3".','Draw or look at the groups.','Add the groups together, or skip count: 3, 6, 9, 12.'],
+ when:'understanding what × really means.',
+ gen(L){const t=pick(TABLES[L]),m=rnd(2,L===1?6:L===2?8:10),ans=m*t;
+  return P('mul',m,t,ans,[{hint:`${m} groups of ${t}. Add up the groups (or skip count by ${t}s)`,q:Array(m).fill(t).join(' + '),a:ans}],()=>groupsVis(m,t),{showVis0:true});}},
+{key:'mul.array',op:'mul',emoji:'🟩',name:'Arrays',
+ short:'Line things up in rows and columns: rows × how many in each row. Break big arrays into a 5-row part and the rest.',
+ how:['The first number is how many rows, the second is how many in each row.','Add row by row, or…','…cover 5 rows (an easy fact) and work out the rest separately.','Turn it around: 3 × 4 is the same as 4 × 3!'],
+ when:'seeing why facts work and breaking hard facts into easy ones.',
+ gen(L){const t=pick(TABLES[L]),m=rnd(2,L===1?6:L===2?9:10),steps=[];
+  if(m<=5){for(let i=2;i<=m;i++)steps.push({hint:i===2?`Each row has ${t}. Add the first two rows`:`Add row ${i}`,q:`${(i-1)*t} + ${t}`,a:i*t});}
+  else steps.push({hint:`Cover the top 5 rows: 5 rows of ${t}`,q:`5 × ${t}`,a:5*t},{hint:`Now the other ${m-5} row${m-5>1?'s':''} of ${t}`,q:`${m-5} × ${t}`,a:(m-5)*t},{hint:'Add the two parts',q:`${5*t} + ${(m-5)*t}`,a:m*t});
+  return P('mul',m,t,m*t,steps,()=>arrayVis(m,t,m>5),{showVis0:true});}},
+{key:'mul.skip',op:'mul',emoji:'🦘',name:'Skip counting',
+ short:'Count forward by the same number each time on a number line. Count the jumps!',
+ how:['Start at 0.','Jump forward by the second number each time.','Make as many jumps as the first number.','Where you land is the answer.'],
+ when:'learning the 2s, 3s, 4s, 5s and 10s.',
+ gen(L){const t=pick(TABLES[L]),m=rnd(2,L===1?8:10),jumps=[],steps=[];
+  for(let i=1;i<=m;i++){jumps.push({from:(i-1)*t,to:i*t,label:`+${t}`,sub:String(i),step:i-1});
+    steps.push({hint:i===1?`${m} jumps of ${t}. Start at 0 and jump ${t}`:`Jump ${i}`,q:`${(i-1)*t} + ${t}`,a:i*t});}
+  return P('mul',m,t,m*t,steps,k=>numberLine(jumps,k));}},
+{key:'mul.double',op:'mul',emoji:'👯',name:'Doubling',
+ short:'×2 is double. ×4 is double, double. ×8 is double, double, double!',
+ how:['×2: just double the number.','×4: double it, then double the answer.','×8: double three times.'],
+ when:'the 2s, 4s and 8s tables.',
+ gen(L){const f=pick(L===1?[2,4]:L===2?[2,4,4]:[4,8]),n=rnd(3,L===1?10:L===2?12:15),times=f===2?1:f===4?2:3,steps=[],lines=[];let cur=n;
+  for(let i=0;i<times;i++){steps.push({hint:i===0?`Double ${n}`:'Double it again',q:`${cur} + ${cur}`,a:cur*2});lines.push(`double ${cur} = ${cur*2}`);cur*=2;}
+  const [x,y]=Math.random()<.5?[f,n]:[n,f];
+  return P('mul',x,y,f*n,steps,k=>eqVis([`${x} × ${y}`,f===2?`×2 means double ${n}`:f===4?`×4 means double, double ${n}`:`×8 means double, double, double ${n}`,...lines],k,2));}},
+{key:'mul.split',op:'mul',emoji:'✂️',name:'Split strategy (area model)',
+ short:'Split the bigger number into tens and ones, multiply each part, then add.',
+ how:['Split the 2-digit number (14 → 10 + 4).','Multiply the tens part (10 × 3 = 30).','Multiply the ones part (4 × 3 = 12).','Add the parts (30 + 12 = 42).'],
+ when:'multiplying a 2-digit number by a 1-digit number.',
+ gen(L){let a,m;if(L===1){a=rnd(11,15);m=pick([2,5]);}else if(L===2){a=rnd(11,25);m=pick([2,3,4,5]);}else{a=rnd(12,49);m=rnd(3,9);}if(a%10===0)a++;
+  const tv=a-a%10,ov=a%10;
+  return P('mul',a,m,a*m,[{hint:`Split ${a} into ${tv} and ${ov}. Multiply the tens`,q:`${tv} × ${m}`,a:tv*m},{hint:'Now multiply the ones',q:`${ov} × ${m}`,a:ov*m},{hint:'Add the two parts',q:`${tv*m} + ${ov*m}`,a:a*m}],k=>areaVis(a,m,k));}},
+{key:'mul.vertical',op:'mul',emoji:'📐',name:'Vertical (column) strategy',
+ short:'Multiply the ones first and carry if needed, then multiply the tens and add the carry.',
+ how:['Write the 2-digit number on top and the 1-digit number underneath.','Multiply the ones. If the answer is 10 or more, write the ones and carry the tens.','Multiply the tens, then add the carry.'],
+ when:'bigger multiplications written down.',
+ gen(L){let a,m;if(L===1){a=rnd(11,34);m=pick([2,3]);}else if(L===2){a=rnd(12,29);m=pick([2,3,4,5]);}else{a=rnd(13,59);m=rnd(3,9);}if(a%10===0)a++;
+  const v=vertMul(a,m);return P('mul',a,m,a*m,v.steps,k=>vertHTML(v,k),{vertical:v});}},
+
+/* ===== DIVISION ===== */
+{key:'div.share',op:'div',emoji:'🍬',name:'Sharing equally',
+ short:'Share the items one at a time into the groups until they are all gone. How many in each group?',
+ how:['The second number tells you how many groups (plates).','Deal the items out one at a time, like cards.','Count how many are on one plate.'],
+ when:'understanding what ÷ means.',
+ gen(L){const [d,q]=tries(()=>[pick(TABLES[L]),rnd(2,L===1?6:L===2?8:10)],([d,q])=>d*q<=(L===3?60:40)),n=d*q;
+  return P('div',n,d,q,[{hint:`Share ${n} equally onto ${d} plates. Deal them out one at a time`,q:'Each plate gets ?',a:q}],k=>shareVis(n,d,k),{showVis0:true});}},
+{key:'div.jump',op:'div',emoji:'🦘',name:'Jump back (repeated subtraction)',
+ short:'Keep taking away the same number until you reach 0. The number of jumps is the answer!',
+ how:['Start at the big number.','Jump back by the second number again and again.','Stop when you reach 0.','Count the jumps.'],
+ when:'"How many groups of ___ fit?" questions.',
+ gen(L){const d=pick(TABLES[L]),q=rnd(2,L===1?6:8),n=d*q,jumps=[],steps=[];
+  for(let i=1;i<=q;i++){jumps.push({from:n-(i-1)*d,to:n-i*d,label:`−${d}`,sub:String(i),step:i-1});
+    steps.push({hint:i===1?`Start at ${n}. Jump back ${d}`:`Jump back ${d} again`,q:`${n-(i-1)*d} − ${d}`,a:n-i*d});}
+  steps.push({hint:'You reached 0! How many jumps did you make?',q:'Number of jumps: ?',a:q});
+  return P('div',n,d,q,steps,k=>numberLine(jumps,k));}},
+{key:'div.think',op:'div',emoji:'🤔',name:'Think multiplication',
+ short:'Division is multiplication backwards. For 24 ÷ 4, think: 4 × ? = 24.',
+ how:['Look at the number you divide by.','Ask: what times that number makes the big number?','Use your times tables!','Every × fact gives you two ÷ facts (a fact family).'],
+ when:'once you know your times tables — it is the fastest way.',
+ gen(L){const d=pick(TABLES[L]),q=rnd(2,MAXM[L]),n=d*q;
+  return P('div',n,d,q,[{hint:`What times ${d} makes ${n}?`,q:`${d} × ? = ${n}`,a:q}],
+    k=>eqVis([`${n} ÷ ${d} = ?`,`Think: ${d} × ? = ${n}`,`${d} × ${q} = ${n} ✓`,`Fact family: ${d} × ${q} = ${n} · ${q} × ${d} = ${n} · ${n} ÷ ${d} = ${q} · ${n} ÷ ${q} = ${d}`],k,2));}},
+{key:'div.half',op:'div',emoji:'✂️',name:'Halving',
+ short:'÷2 is half. ÷4 is half, then half again. ÷8 is half three times.',
+ how:['÷2: find half. Split big numbers into easy parts (46 → 40 + 6) and halve each.','÷4: halve, then halve again.','÷8: halve three times.'],
+ when:'dividing by 2, 4 or 8.',
+ gen(L){let d,n;if(L===1){d=2;n=rnd(6,24)*2;}else if(L===2){d=pick([2,4]);n=d===2?rnd(10,49)*2:4*rnd(3,12);}else{d=pick([2,4,8]);n=d===2?rnd(20,99)*2:d===4?4*rnd(5,25):8*rnd(3,12);}
+  const q=n/d,steps=[];
+  if(d===2){const p1=Math.floor(n/20)*20,p2=n-p1;
+    if(p1&&p2)steps.push({hint:`Split ${n} into ${p1} and ${p2}. Halve ${p1} first`,q:`half of ${p1}`,a:p1/2},{hint:`Now halve ${p2}`,q:`half of ${p2}`,a:p2/2},{hint:'Add the halves',q:`${p1/2} + ${p2/2}`,a:q});
+    else steps.push({hint:`Find half of ${n}`,q:`half of ${n}`,a:q});}
+  else{let cur=n;for(let i=0;i<(d===4?2:3);i++){steps.push({hint:i===0?`Halve ${n}`:'Halve it again',q:`half of ${cur}`,a:cur/2});cur/=2;}}
+  return P('div',n,d,q,steps,k=>eqVis([`${n} ÷ ${d}`,d===2?`÷2 means half of ${n}`:d===4?'÷4 means half, then half again':'÷8 means half, half, half',...steps.map(st=>qPlain(st.q,st.a))],k,2));}},
+{key:'div.split',op:'div',emoji:'🧩',name:'Split strategy',
+ short:'Split the big number into friendly parts that are easy to divide, then add the answers.',
+ how:['Find a friendly part you can divide easily (like 10 lots of the divisor).','Split the number: friendly part + the rest.','Divide each part.','Add the answers.'],
+ when:'dividing 2-digit numbers that are too big for your tables.',
+ gen(L){let d,q;if(L===1){d=2;q=rnd(11,19);}else if(L===2){d=pick([2,3,4,5]);q=rnd(11,19);}else{d=rnd(3,9);q=rnd(11,25);}if(q%10===0)q++;
+  const n=d*q,p1=d*10*Math.floor(q/10),p2=n-p1;
+  return P('div',n,d,q,[{hint:`Split ${n} into ${p1} + ${p2} — both are easy to divide by ${d}`,q:`${p1} ÷ ${d}`,a:p1/d},{hint:'Now divide the other part',q:`${p2} ÷ ${d}`,a:p2/d},{hint:'Add the answers',q:`${p1/d} + ${p2/d}`,a:q}],
+    ()=>splitTree([{top:n,parts:[{v:p1,p:'x'},{v:p2,p:'x'}]},{top:d,parts:[]}],'÷'));}},
+{key:'div.rem',op:'div',emoji:'🍪',name:'Leftovers (remainders)',challenge:true,
+ short:'Sometimes things do not share out evenly. The ones left over are the remainder. Write it like 5 r 3.',
+ how:['Find the biggest times-table fact that fits into the number.','That gives how many in each group.','Take it away to see how many are left over.','Write the answer like 5 r 3 (use the r key).'],
+ when:'real-life sharing where things do not split evenly.',
+ gen(L){const [d,q,r]=tries(()=>{const d=pick(TABLES[L]);return [d,rnd(2,L===1?6:L===2?8:10),rnd(1,d-1)];},([d,q,r])=>d*q+r<=(L===3?100:60)),n=d*q+r;
+  return P('div',n,d,`${q} r ${r}`,[{hint:`Find the biggest ${d}× fact that fits into ${n}`,q:`${d} × ? (biggest fact up to ${n})`,a:q,explain:`${d} × ${q} = ${d*q}`},{hint:'How many are left over?',q:`${n} − ${d*q}`,a:r}],
+    n<=60?k=>shareVis(n,d,k):k=>eqVis([`${n} ÷ ${d}`,`${d} × ${q} = ${d*q}`,`${n} − ${d*q} = ${r} left over`],k,1),{rem:true,showVis0:n<=60});}},
+];
+const STRAT=Object.fromEntries(STRATS.map(s=>[s.key,s]));
+function makeProblem(key){const s=STRAT[key],p=s.gen(S.level);p.key=key;p.strat=s;return p;}
+
+/* ---------- STORY PROBLEMS ---------- */
+const NAMES=['Maisha','Ava','Leo','Zara','Noah','Mia','Ali','Ruby','Omar','Isla','Jack','Lily','Aisha','Ethan','Sofia','Yusuf'];
+const THINGS=['stickers','marbles','apples','shells','books','cards','pencils','cupcakes','beads','stamps','lollies','balloons'];
+function story(p){
+  const n1=pick(NAMES);let n2=pick(NAMES);while(n2===n1)n2=pick(NAMES);const th=pick(THINGS),{x,y}=p;
+  switch(p.op){
+    case 'add':return pick([`${n1} has ${x} ${th}. ${n2} gives ${n1} ${y} more. How many ${th} does ${n1} have now?`,`There are ${x} ${th} in one box and ${y} in another box. How many ${th} are there altogether?`,`${n1} read ${x} pages on Monday and ${y} pages on Tuesday. How many pages is that in total?`]);
+    case 'sub':return pick([`${n1} had ${x} ${th} and gave ${y} to ${n2}. How many ${th} are left?`,`A shop had ${x} ${th}. It sold ${y}. How many are left?`,`${n1} has ${x} ${th}. ${n2} has ${y}. How many more does ${n1} have?`]);
+    case 'mul':return pick([`There are ${x} bags with ${y} ${th} in each bag. How many ${th} altogether?`,`${n1} makes ${x} rows with ${y} ${th} in each row. How many ${th} is that?`,`${x} friends each have ${y} ${th}. How many ${th} do they have altogether?`]);
+    case 'div':return p.rem?`${x} ${th} are shared equally between ${y} friends. How many does each friend get, and how many are left over? (Write it like 5 r 2.)`
+      :pick([`${x} ${th} are shared equally between ${y} friends. How many does each friend get?`,`${n1} packs ${x} ${th} into bags of ${y}. How many bags does ${n1} need?`]);
+  }
+}
+
+/* ---------- TIMES TABLES ---------- */
+function ttProblem(tabs,withDiv){
+  const t=pick(tabs),m=rnd(1,S.level===3?12:10),key=`${t}x${m}`,strat={emoji:'⚡',name:'Times tables'};
+  if(withDiv&&Math.random()<.4){const n=t*m;
+    return {op:'div',x:n,y:t,text:`${n} ÷ ${t}`,ans:m,tt:key,key:'tt',strat,steps:[{hint:`Think: ${t} × ? = ${n}`,q:`${t} × ? = ${n}`,a:m}],vis:k=>eqVis([`${n} ÷ ${t} = ?`,`Think: ${t} × ? = ${n}`,`${t} × ${m} = ${n} ✓`],k,2)};}
+  const jumps=[];for(let i=1;i<=m;i++)jumps.push({from:(i-1)*t,to:i*t,label:`+${t}`,step:0});
+  const [x,y]=Math.random()<.5?[m,t]:[t,m];
+  return {op:'mul',x,y,text:`${x} × ${y}`,ans:m*t,tt:key,key:'tt',strat,
+    steps:[{hint:`Skip count by ${t}s, ${m} time${m>1?'s':''}: ${Array.from({length:m},(_,i)=>(i+1)*t).join(', ')}`,q:`${m} × ${t}`,a:m*t}],vis:k=>numberLine(jumps,k)};
+}
+
+/* ---------- UI BITS ---------- */
+const $app=document.getElementById('app');
+function starPts(cx,cy,R,r){let s=[],rot=-Math.PI/2;for(let i=0;i<10;i++){const rad=i%2?r:R;s.push(`${cx+Math.cos(rot)*rad},${cy+Math.sin(rot)*rad}`);rot+=Math.PI/5;}return s.join(' ');}
+const MASCOT=`<svg class="mascot" viewBox="-40 -72 80 92"><polygon points="${starPts(-5,-58,11,5)}" fill="#FF6B6B"/><circle cx="0" cy="-18" r="36" fill="#FFD93D"/><circle cx="-13" cy="-26" r="7" fill="#2C3E50"/><circle cx="13" cy="-26" r="7" fill="#2C3E50"/><circle cx="-11" cy="-29" r="3" fill="#fff"/><circle cx="15" cy="-29" r="3" fill="#fff"/><path d="M13 -12 A13 13 0 0 1 -13 -12" stroke="#2C3E50" stroke-width="3" fill="none"/></svg>`;
+function bar(title,color,showBack=true){
+  document.getElementById('title').textContent=title;
+  document.getElementById('shell').style.setProperty('--c',color);
+  document.getElementById('backBtn').classList.toggle('hide',!showBack);
+  updateBar();
+}
+function updateBar(){
+  document.getElementById('starBox').innerHTML=`⭐ ${S.stars}<small>🔥 ${S.streak}</small>`;
+  document.getElementById('sndBtn').textContent=S.muted?'🔇':'🔊';
+}
+function confetti(n=24){
+  const cols=['#FF6B6B','#4ECDC4','#FFE66D','#A78BFA','#60A5FA','#34D399','#FB923C'];
+  for(let i=0;i<n;i++){const e=document.createElement('i');e.className='cf';e.style.left=(42+Math.random()*16)+'vw';e.style.top='45vh';e.style.background=pick(cols);
+    const ang=Math.random()*Math.PI*2,d=80+Math.random()*180;e.style.setProperty('--dx',Math.cos(ang)*d+'px');e.style.setProperty('--dy',Math.sin(ang)*d-70+'px');
+    document.body.appendChild(e);setTimeout(()=>e.remove(),1100);}
+}
+function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2000);}
+const visHTML=(p,k)=>p.vis?`<div class="vis">${p.vis(k)}</div>`:'';
+const finalLine=p=>`<div class="final">✅ So ${p.text} = ${fmtAns(p.ans)}</div>`;
+const stepLi=(st,i)=>`<li><div class="gh">Step ${i+1}: ${st.hint}</div><div class="gq">${qFill(st.q,st.a)}</div>${st.explain?`<div class="gx">${st.explain}</div>`:''}</li>`;
+const solutionHTML=p=>`<div class="solh">Here's how the ${p.strat.name.toLowerCase()} works:</div>${visHTML(p,99)}<ol class="solsteps">${p.steps.map(stepLi).join('')}</ol>${finalLine(p)}`;
+function stat(key,ok){const o=S.stats[key]||{r:0,t:0};o.t++;if(ok)o.r++;S.stats[key]=o;}
+const opR=op=>STRATS.filter(s=>s.op===op).reduce((n,s)=>n+((S.stats[s.key]||{}).r||0),0);
+const chips=(g,opts,cur,act='set')=>opts.map(([v,l])=>`<button class="chip ${(Array.isArray(cur)?cur.includes(v):cur===v)?'on':''}" data-act="${act}" data-g="${g}" data-v="${v}">${l}</button>`).join('');
+
+/* ---------- NAVIGATION ---------- */
+const NAV=[];let CUR={screen:'home',params:{}};
+function go(screen,params={}){NAV.push(CUR);CUR={screen,params};draw();window.scrollTo(0,0);}
+function back(){CUR=NAV.pop()||{screen:'home',params:{}};draw();window.scrollTo(0,0);}
+function draw(){({home,op:opScreen,learn,practice,mixed:mixedSetup,tables:tablesSetup,ws:wsSetup,sheet,progress})[CUR.screen]();}
+
+/* ---------- SCREENS ---------- */
+function home(){
+  bar('✨ Math Strategies ✨','#FF6B6B',false);
+  const ops=Object.entries(OPS).map(([k,o])=>`<button class="tile" style="background:${o.color}" data-act="op" data-op="${k}"><span class="em">${o.emoji}</span>${o.name}<small>${STRATS.filter(s=>s.op===k).length} strategies · learn &amp; practise</small></button>`).join('');
+  const ex=[['mixed','🎲','Mixed Quiz','All four operations','#EC4899'],['tables','⚡','Times Tables','Quick-fire facts','#14B8A6'],['story','📖','Story Problems','Maths in real life','#F97316'],['ws','🖨️','Worksheets','Print with answer key','#64748B'],['progress','🏆','My Progress','Stars, badges &amp; tips','#22C55E']]
+    .map(([to,em,n,s,c])=>`<button class="tile" style="background:${c}" data-act="go" data-to="${to}"><span class="em">${em}</span>${n}<small>${s}</small></button>`).join('');
+  $app.innerHTML=`<div class="hero"><div class="title">Math Strategies Adventure</div><div class="sub">Year 2 → Year 3 · Think like a mathematician! 🧠</div></div>
+    <div class="card lvl"><b>Level:</b>${chips('',[1,2,3].map(l=>[l,LEVELS[l]]),S.level,'level')}<div class="hint">${LEVEL_DESC[S.level]}</div></div>
+    <div class="tiles">${ops}</div><div class="tiles extras">${ex}</div>
+    <div class="foot"><a href="montessori-math-v3-improved-fixed.html" class="btn ghost">🍎 Little Learners game (Prep–Year 1)</a><p>Idea by Maisha Muneeba · Developed by Dr Md Abul Bashar</p></div>`;
+}
+function opScreen(){
+  const op=CUR.params.op,o=OPS[op];bar(`${o.emoji} ${o.name}`,o.color);
+  const cards=STRATS.filter(s=>s.op===op).map(s=>{const st=S.stats[s.key];return `<div class="scard"><div class="sem">${s.emoji}</div><div class="sbody"><div class="sname">${s.name}${s.challenge?' <span class="tagc">🔥 Challenge</span>':''}</div><div class="sshort">${s.short}</div>${st?`<div class="sstat">✅ ${st.r} of ${st.t} answered perfectly</div>`:''}</div><div class="sbtns"><button class="btn ghost" data-act="learn" data-k="${s.key}">📖 Learn</button><button class="btn" data-act="prac" data-k="${s.key}">✏️ Practise</button></div></div>`;}).join('');
+  $app.innerHTML=`<div class="card"><b>Pick a strategy.</b> Tap <b>📖 Learn</b> to see how it works step by step, then <b>✏️ Practise</b> with 10 questions. Good mathematicians know lots of strategies and choose the best one for each problem!
+    <div class="row"><button class="btn big" data-act="opmix" data-op="${op}">🎯 Mixed ${o.name.toLowerCase()} practice</button><button class="btn ghost" data-act="wsop" data-op="${op}">🖨️ Make a worksheet</button></div></div>${cards}`;
+}
+function learn(){
+  const prm=CUR.params,s=STRAT[prm.key];if(!prm.p){prm.p=makeProblem(prm.key);prm.k=0;}
+  const p=prm.p,k=prm.k,n=p.steps.length;bar(`${s.emoji} ${s.name}`,OPS[s.op].color);
+  $app.innerHTML=`<div class="card how"><p class="short">${s.short}</p><ul>${s.how.map(h=>`<li>${h}</li>`).join('')}</ul><p class="when">👍 <b>Good for:</b> ${s.when}</p></div>
+    <div class="card"><div class="exh">Worked example · ${LEVELS[S.level]}</div><div class="problem">${p.text} = ${k>=n?`<span class="good">${fmtAns(p.ans)}</span>`:'<span class="qm">?</span>'}</div>
+    ${visHTML(p,k)}<ol class="solsteps">${p.steps.slice(0,k).map(stepLi).join('')}</ol>${k>=n?finalLine(p):''}
+    <div class="row">${k<n?`<button class="btn" data-act="lnext">Next step ▶ (${k+1} of ${n})</button><button class="btn ghost" data-act="lall">Show all steps</button>`:''}<button class="btn ghost" data-act="lnew">🔄 Another example</button><button class="btn green" data-act="lprac">✏️ Practise this</button></div></div>`;
+}
+
+/* ----- practice engine ----- */
+let SES=null,Q=null;
+function startSession(cfg,replace=false){
+  SES=Object.assign({cfg},cfg,{i:0,results:[],stars0:S.stars,t0:Date.now(),finished:false});nextQuestion();
+  if(replace){CUR={screen:'practice',params:{}};draw();}else go('practice');
+}
+function startStrat(key){const s=STRAT[key];startSession({title:`${s.emoji} ${s.name}`,color:OPS[s.op].color,total:10,allowGuided:true,gen:()=>makeProblem(key)});}
+const poolFor=ops=>STRATS.filter(s=>ops.includes(s.op)&&(!s.challenge||S.level>=3));
+function nextQuestion(){
+  const p=SES.gen();if(SES.story){p.story=story(p);delete p.vertical;}
+  const g=p.steps.slice();const last=g[g.length-1];
+  if(String(last.a)!==String(p.ans))g.push({hint:`Now finish it: what is ${p.text}?`,q:p.text,a:p.ans});
+  Q={p,gsteps:g,typed:'',wrongs:0,step:0,sw:0,perfect:true,done:false,revealed:false,carry:{},guided:SES.allowGuided&&S.guided,fb:null,showSentence:false};
+}
+function practice(){
+  if(SES.finished)return summary();
+  const p=Q.p,s=p.strat;bar(SES.title,SES.color);
+  const tgt=Q.guided&&!Q.done?Q.gsteps[Q.step].a:p.ans,showR=typeof tgt==='string';
+  const hideSentence=p.story&&!Q.done&&!Q.guided&&!Q.showSentence;
+  let main=p.story?`<div class="story">📖 ${p.story}</div>`:'';
+  const inlineBox=!Q.done&&!Q.guided&&!p.vertical;
+  const ansPart=Q.done?`<span class="good">${fmtAns(p.ans)}</span>`:inlineBox?`<span class="abox active">${fmtTyped(Q.typed)||'&nbsp;'}</span>`:'<span class="qm">?</span>';
+  if(hideSentence)main+=`<div class="problem small">Answer: ${ansPart}</div><div class="row"><button class="btn ghost" data-act="sentence">🤔 Show me the number sentence</button></div>`;
+  else main+=`<div class="problem">${p.text} = ${ansPart}</div>`;
+  if(Q.done){
+    if(Q.revealed)main+=solutionHTML(p);
+    else if(Q.guided)main+=visHTML(p,99)+guidedHTML()+finalLine(p);
+    else if(p.vertical)main+=`<div class="vis">${vertHTML(p.vertical,99)}</div>`;
+  }else if(Q.guided)main+=visHTML(p,Q.step)+guidedHTML();
+  else{
+    if(p.showVis0)main+=visHTML(p,0);
+    if(p.vertical)main+=`<div class="vis"><div class="vtip">Type the ones first — digits fill in from right to left.${p.op!=='sub'?' Tap the dotted boxes to write carries.':''}</div>${vertHTML(p.vertical,0,{typed:Q.typed,carry:Q.carry})}</div>`;
+  }
+  const fb=`<div class="fb ${Q.fb?Q.fb.t:'info'}">${MASCOT}<span>${Q.fb?Q.fb.m:(Q.guided?'Answer one step at a time. You can do it!':'Work it out, then type your answer.')}</span></div>`;
+  let ctr;
+  if(!Q.done)ctr=keypadHTML(showR)+`<div class="row">${!Q.guided&&SES.allowGuided?'<button class="btn ghost" data-act="help">💡 Help me step by step</button>':'<button class="btn ghost" data-act="giveup">👀 Show me the answer</button>'}</div>`;
+  else ctr=`<div class="row col"><button class="btn green big" data-act="next">${SES.i+1>=SES.total?'🏁 See my results':'Next question ▶'}</button>${!Q.guided&&!Q.revealed?`<button class="btn ghost" data-act="see">👀 See how the ${s.name.toLowerCase()} works</button>`:''}</div>`;
+  const toggle=SES.allowGuided?`<div class="seg"><button data-act="mode" data-v="1" class="${S.guided?'on':''}">🧭 Step by step</button><button data-act="mode" data-v="0" class="${!S.guided?'on':''}">💪 On my own</button></div>`:'';
+  $app.innerHTML=`<div class="ptop"><div class="prog"><div style="width:${SES.i/SES.total*100}%"></div><span>Question ${SES.i+1} of ${SES.total}</span></div>${toggle}</div>
+    <div class="play"><div class="mainc">${hideSentence?'':`<div class="stag">${s.emoji} ${s.name}</div>`}${main}</div><div class="side">${fb}${ctr}</div></div>`;
+}
+function guidedHTML(){
+  return `<ol class="gsteps">${Q.gsteps.map((st,i)=>{
+    if(i<Q.step||Q.done)return `<li class="done"><div class="gq">${qFill(st.q,st.a)} ✓</div>${st.explain?`<div class="gx">${st.explain}</div>`:''}</li>`;
+    if(i===Q.step)return `<li class="cur"><div class="gh">Step ${i+1}: ${st.hint}</div><div class="gq">${qBox(st.q,fmtTyped(Q.typed))}</div></li>`;
+    return `<li class="todo">Step ${i+1}</li>`;}).join('')}</ol>`;
+}
+function keypadHTML(showR){
+  return `<div class="keypad">${['7','8','9','4','5','6','1','2','3'].map(k=>`<button class="key" data-key="${k}">${k}</button>`).join('')}
+    <button class="key fn" data-key="back" aria-label="Delete">⌫</button><button class="key" data-key="0">0</button>${showR?'<button class="key fn" data-key="r">r</button>':'<button class="key fn" data-key="clear">C</button>'}
+    <button class="key ok" data-key="ok">✓ Check</button></div>`;
+}
+function press(k){
+  if(!Q||Q.done||SES.finished)return;
+  const vert=!Q.guided&&Q.p.vertical;
+  if(k==='ok')return check();
+  if(k==='back')Q.typed=vert?Q.typed.slice(1):Q.typed.slice(0,-1);
+  else if(k==='clear')Q.typed='';
+  else if(k==='r'){if(Q.typed&&!Q.typed.includes('r'))Q.typed+='r';}
+  else{const max=vert?Q.p.vertical.n:7;if(Q.typed.length<max)Q.typed=vert?k+Q.typed:Q.typed+k;}
+  sound('tap');draw();
+}
+function breakStreak(){if(Q.perfect){Q.perfect=false;S.streak=0;save();updateBar();}}
+function check(){
+  if(!Q||Q.done||Q.typed==='')return;
+  if(Q.guided){
+    const st=Q.gsteps[Q.step];
+    if(isRight(Q.typed,st.a)){Q.step++;Q.typed='';Q.sw=0;if(Q.step>=Q.gsteps.length)finishQ(true);else{sound('step');Q.fb={t:'ok',m:pick(STEP_PRAISE)};}}
+    else{Q.sw++;breakStreak();sound('bad');Q.typed='';
+      if(Q.sw>=2){Q.fb={t:'bad',m:`That step is <b>${qPlain(st.q,fmtAns(st.a))}</b>. Let's keep going!`};Q.step++;Q.sw=0;if(Q.step>=Q.gsteps.length)finishQ(true);}
+      else Q.fb={t:'bad',m:'Not quite — check that step again! 💪'};}
+  }else{
+    if(isRight(Q.typed,Q.p.ans))finishQ(true);
+    else{Q.wrongs++;breakStreak();sound('bad');Q.typed='';
+      if(Q.wrongs>=2){Q.revealed=true;finishQ(false);}
+      else Q.fb={t:'bad',m:`Not quite! Have another go. 💡 Hint: ${Q.p.steps[0].hint}.`};}
+  }
+  draw();
+  if(Q.fb&&Q.fb.t==='bad')document.querySelector('.fb')?.classList.add('shake');
+}
+function finishQ(correct){
+  Q.done=true;const p=Q.p;
+  stat(p.key,Q.perfect);if(p.story)stat('story',Q.perfect);
+  if(p.tt){const o=S.tt[p.tt]||{r:0,t:0};o.t++;if(Q.perfect)o.r++;S.tt[p.tt]=o;}
+  SES.results.push({p,perfect:Q.perfect});
+  if(correct){S.stars++;if(Q.perfect){S.streak++;S.best=Math.max(S.best,S.streak);}
+    sound(Q.perfect?'great':'ok');confetti();Q.fb={t:'ok',m:`${pick(PRAISE)} <b>${p.text} = ${fmtAns(p.ans)}</b>`};
+    const n=S.streak;if(Q.perfect&&[5,10,20,50,100].includes(n))setTimeout(()=>{toast(`🔥 ${n} in a row!`);sound('streak');confetti(40);},500);}
+  else Q.fb={t:'info',m:`The answer is <b>${fmtAns(p.ans)}</b>. Have a look at how it works 👇`};
+  save();updateBar();
+}
+function nextBtn(){
+  SES.i++;
+  if(SES.i>=SES.total){SES.finished=true;SES.t1=Date.now();S.sets++;save();confetti(50);sound('great');}
+  else nextQuestion();
+  draw();window.scrollTo(0,0);
+}
+function summary(){
+  bar('🏁 Results',SES.color);const r=SES.results,good=r.filter(x=>x.perfect).length,earned=S.stars-SES.stars0,secs=Math.round((SES.t1-SES.t0)/1000),pct=good/r.length;
+  const msg=pct===1?'PERFECT! You are a maths superstar! 🌟':pct>=.8?'Brilliant work! 🎉':pct>=.5?'Good effort — keep practising! 💪':'Every mistake helps your brain grow. Try again! 🌱';
+  $app.innerHTML=`<div class="card" style="text-align:center"><div class="bigscore">${good} / ${r.length}</div><h2>${msg}</h2>
+    <div class="hint">answered perfectly · ⭐ +${earned} stars · ⏱️ ${Math.floor(secs/60)} min ${secs%60} s</div>
+    <div class="row"><button class="btn big" data-act="again">🔁 Practise again</button><button class="btn ghost" data-act="back">◀ Back</button></div></div>
+    <h2>Your answers</h2>${r.map((x,i)=>`<div class="res ${x.perfect?'ok':'no'}"><span>${i+1}. ${x.p.text} = ${fmtAns(x.p.ans)}</span><span>${x.perfect?'✅':'🔁 practise'}</span>${x.perfect?'':`<details><summary>See how</summary>${solutionHTML(x.p)}</details>`}</div>`).join('')}`;
+}
+
+/* ----- setup screens ----- */
+function mixedSetup(){
+  const P=CUR.params;P.ops??=['add','sub','mul','div'];P.n??=10;P.story??=false;
+  const so=P.storyOnly;bar(so?'📖 Story Problems':'🎲 Mixed Quiz',so?'#F97316':'#EC4899');
+  $app.innerHTML=`<div class="card"><h2>${so?'Read the story, work out the maths!':'A bit of everything'}</h2>
+    <p class="hint">${so?'Each question is a little story. Decide whether to add, subtract, multiply or divide — then solve it. Stuck? Tap "Show me the number sentence".':'Questions use different strategies at random. A great check-up before a test.'}</p>
+    <h3>Which operations?</h3>${chips('ops',Object.entries(OPS).map(([k,o])=>[k,`${o.emoji} ${o.name}`]),P.ops,'tog')}
+    <h3>How many questions?</h3>${chips('n',[[10,'10'],[20,'20'],[30,'30']],P.n)}
+    ${so?'':`<h3>Extras</h3><button class="chip ${P.story?'on':''}" data-act="flip" data-g="story">📖 Turn them into story problems</button>`}
+    <div class="row"><button class="btn big green" data-act="start-mixed">▶ Start</button></div></div>`;
+}
+function tablesSetup(){
+  const P=CUR.params;P.tabs??=TABLES[S.level].slice();P.n??=10;P.div??=false;bar('⚡ Times Tables','#14B8A6');
+  $app.innerHTML=`<div class="card"><h2>Quick-fire facts</h2><p class="hint">Pick the tables to practise. Year 3 focuses on the 2s, 3s, 4s, 5s and 10s.</p>
+    <h3>Tables</h3>${chips('tabs',[2,3,4,5,6,7,8,9,10,11,12].map(t=>[t,`×${t}`]),P.tabs,'tog')}
+    <h3>How many questions?</h3>${chips('n',[[10,'10'],[20,'20'],[30,'30']],P.n)}
+    <h3>Extras</h3><button class="chip ${P.div?'on':''}" data-act="flip" data-g="div">➗ Mix in division facts</button>
+    <div class="row"><button class="btn big green" data-act="start-tt">▶ Start</button></div></div>
+    <div class="card"><h2>My times-table map</h2>${ttGrid()}</div>`;
+}
+function ttGrid(){
+  const maxT=S.level===3?12:10,cols=Array.from({length:maxT},(_,i)=>i+1);
+  return `<div style="overflow-x:auto"><table class="ttg"><tr><th>×</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>${[2,3,4,5,6,7,8,9,10,11,12].filter(t=>t<=maxT).map(t=>`<tr><th>${t}</th>${cols.map(m=>{const o=S.tt[`${t}x${m}`];const c=!o?'':o.r/o.t>=.8?'g':'r';return `<td class="${c}">${t*m}</td>`;}).join('')}</tr>`).join('')}</table></div>
+    <p class="hint">🟩 known · 🟧 still learning · ⬜ not tried yet</p>`;
+}
+function wsSetup(){
+  const P=CUR.params;P.op??='add';P.strat??='any';P.n??=20;P.story??=false;P.space??=true;bar('🖨️ Worksheets','#64748B');
+  const stratOpts=P.op==='mix'?'':`<h3>Strategy</h3>${chips('strat',[['any','🎲 Any strategy'],...STRATS.filter(s=>s.op===P.op).map(s=>[s.key,`${s.emoji} ${s.name}`])],P.strat)}`;
+  $app.innerHTML=`<div class="card"><h2>Make a printable worksheet</h2><p class="hint">Fresh questions every time, with an answer key on the last page for checking.</p>
+    <h3>Operation</h3>${chips('op',[...Object.entries(OPS).map(([k,o])=>[k,`${o.emoji} ${o.name}`]),['mix','🎲 Mixed']],P.op)}
+    ${stratOpts}
+    <h3>Level</h3>${chips('',[1,2,3].map(l=>[l,LEVELS[l]]),S.level,'level')}
+    <h3>Number of questions</h3>${chips('n',[[10,'10'],[20,'20'],[30,'30']],P.n)}
+    <h3>Extras</h3><button class="chip ${P.story?'on':''}" data-act="flip" data-g="story">📖 Include story problems</button><button class="chip ${P.space?'on':''}" data-act="flip" data-g="space">✏️ Space for working</button>
+    <div class="row"><button class="btn big green" data-act="ws-gen">📄 Make worksheet</button></div></div>`;
+}
+function genSheetItems(c){
+  const pool=c.op==='mix'?poolFor(['add','sub','mul','div']):poolFor([c.op]);
+  return Array.from({length:c.n},(_,i)=>{const key=c.strat!=='any'?c.strat:pick(pool).key,p=makeProblem(key);if(c.story&&i%4===3){p.story=story(p);delete p.vertical;}return p;});
+}
+function sheet(){
+  const P=CUR.params,c=P.cfg,title=c.op==='mix'?'Mixed Maths':OPS[c.op].name;bar('🖨️ Worksheet','#64748B');
+  const item=(p,i)=>`<div class="wsq${c.space?' space':''}"><div class="wsn">${i+1}.</div><div class="wsc">${p.story?`<div class="wss">${p.story}</div><div class="wsl">Answer: <span class="blank">${P.ans?fmtAns(p.ans):''}</span></div>`
+    :p.vertical?vertHTML(p.vertical,P.ans?99:0):`<div class="wsl">${p.text} = <span class="blank">${P.ans?fmtAns(p.ans):''}</span></div>`}<div class="wst">Try: ${p.strat.emoji} ${p.strat.name}</div></div></div>`;
+  $app.innerHTML=`<div class="row noprint" style="margin:0 0 12px"><button class="btn" data-act="ws-print">🖨️ Print</button><button class="btn ghost" data-act="ws-new">🔄 New questions</button><button class="btn ghost" data-act="ws-ans">${P.ans?'🙈 Hide answers':'👀 Show answers'}</button></div>
+    <div class="ws ${P.ans?'ans-on':''}"><h1>${title} Practice · ${LEVELS[S.level]}</h1><div class="wsmeta"><span>Name: ____________________</span><span>Date: ____________</span><span>Score: ____ / ${c.n}</span></div>
+    <div class="wsgrid">${P.items.map(item).join('')}</div>
+    <div class="keywrap"><h2>Answer key</h2><ol class="keyl">${P.items.map(p=>`<li><b>${p.text} = ${fmtAns(p.ans)}</b><small>${p.strat.name}: ${p.steps.map(st=>qPlain(st.q,st.a)).join(' → ')}</small></li>`).join('')}</ol></div></div>`;
+}
+const BADGES=[
+  {em:'➕',name:'Addition Ace',need:'20 perfect + answers',ok:()=>opR('add')>=20},
+  {em:'➖',name:'Subtraction Star',need:'20 perfect − answers',ok:()=>opR('sub')>=20},
+  {em:'✖️',name:'Times Titan',need:'20 perfect × answers',ok:()=>opR('mul')>=20},
+  {em:'➗',name:'Division Diver',need:'20 perfect ÷ answers',ok:()=>opR('div')>=20},
+  {em:'🧭',name:'Strategy Explorer',need:'Try every strategy',ok:()=>STRATS.every(s=>(S.stats[s.key]||{}).t>0)},
+  {em:'🔥',name:'Hot Streak',need:'10 perfect in a row',ok:()=>S.best>=10},
+  {em:'⚡',name:'Table Master',need:'50 table facts',ok:()=>((S.stats.tt||{}).r||0)>=50},
+  {em:'📖',name:'Story Solver',need:'10 story problems',ok:()=>((S.stats.story||{}).r||0)>=10},
+  {em:'🏆',name:'Star Collector',need:'100 stars',ok:()=>S.stars>=100}];
+function progress(){
+  const P=CUR.params;bar('🏆 My Progress','#22C55E');
+  const rows=Object.entries(OPS).map(([op,o])=>`<h3 style="color:${o.color}">${o.emoji} ${o.name}</h3>`+STRATS.filter(s=>s.op===op).map(s=>{const st=S.stats[s.key]||{r:0,t:0},acc=st.t?st.r/st.t:0;
+    const tag=st.t>=5?(acc>=.9?'<span class="tg good">🌟 Mastered</span>':acc<.7?'<span class="tg warn">💪 Needs practice</span>':''):'';
+    return `<div class="prow"><span>${s.emoji} ${s.name}</span><span class="pbar"><i style="width:${acc*100}%;background:${o.color}"></i></span><span>${st.t?`${st.r}/${st.t}`:'—'}</span>${tag}</div>`;}).join('')).join('');
+  $app.innerHTML=`<div class="pstats"><div class="big">⭐ ${S.stars}</div>Best streak 🔥 ${S.best} · Practice sets finished ${S.sets}</div>
+    <h2>Badges</h2><div class="badges">${BADGES.map(b=>{const ok=b.ok();return `<div class="badge ${ok?'on':''}"><div class="bem">${b.em}</div><div class="bn">${b.name}</div><div class="bneed">${ok?'Earned! 🎉':b.need}</div></div>`;}).join('')}</div>
+    <div class="card"><h2>Parents' corner: strategies</h2><p class="hint">Perfect answers (no mistakes) out of questions tried. Strategies marked 💪 are worth more practice.</p>${rows}</div>
+    <div class="card"><h2>Times-table map</h2>${ttGrid()}</div>
+    <div class="row"><button class="btn ghost" data-act="reset">${P.confirm?'⚠️ Tap again to erase all progress':'↺ Reset progress'}</button></div>`;
+}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act],[data-key],[data-carry]');if(!el)return;
+  const d=el.dataset;
+  if(d.key)return press(d.key);
+  if(d.carry!==undefined){const v=Q.carry[d.carry]||'';Q.carry[d.carry]=v===''?'1':v==='1'?'2':'';sound('tap');return draw();}
+  const P=CUR.params,val=v=>isNaN(v)?v:+v;
+  switch(d.act){
+    case 'back':back();break;
+    case 'sound':S.muted=!S.muted;save();updateBar();sound('tap');break;
+    case 'level':S.level=+d.v;save();sound('tap');draw();break;
+    case 'op':go('op',{op:d.op});break;
+    case 'go':go(d.to==='story'?'mixed':d.to,d.to==='story'?{storyOnly:true}:{});break;
+    case 'learn':go('learn',{key:d.k});break;
+    case 'prac':startStrat(d.k);break;
+    case 'opmix':startSession({title:`🎯 Mixed ${OPS[d.op].name}`,color:OPS[d.op].color,total:10,allowGuided:true,gen:()=>makeProblem(pick(poolFor([d.op])).key)});break;
+    case 'wsop':go('ws',{op:d.op});break;
+    case 'lnext':P.k++;draw();break;
+    case 'lall':P.k=P.p.steps.length;draw();break;
+    case 'lnew':P.p=null;draw();break;
+    case 'lprac':startStrat(P.key);break;
+    case 'mode':S.guided=d.v==='1';save();if(Q&&!Q.done){Q.guided=S.guided;Q.step=0;Q.typed='';Q.fb=null;}draw();break;
+    case 'help':Q.guided=true;Q.step=0;Q.typed='';Q.fb={t:'info',m:"Let's do it together, one step at a time! 🧭"};draw();break;
+    case 'giveup':breakStreak();Q.revealed=true;finishQ(false);draw();break;
+    case 'see':Q.revealed=true;draw();break;
+    case 'sentence':Q.showSentence=true;draw();break;
+    case 'next':nextBtn();break;
+    case 'again':startSession(SES.cfg,true);break;
+    case 'tog':{const arr=P[d.g],v=val(d.v),i=arr.indexOf(v);if(i>=0){if(arr.length>1)arr.splice(i,1);}else arr.push(v);sound('tap');draw();break;}
+    case 'set':P[d.g]=val(d.v);if(d.g==='op')P.strat='any';sound('tap');draw();break;
+    case 'flip':P[d.g]=!P[d.g];sound('tap');draw();break;
+    case 'start-mixed':{const ops=P.ops.slice(),so=P.storyOnly;startSession({title:so?'📖 Story Problems':'🎲 Mixed Quiz',color:so?'#F97316':'#EC4899',total:P.n,allowGuided:true,story:so||P.story,gen:()=>makeProblem(pick(poolFor(ops)).key)});break;}
+    case 'start-tt':{const tabs=P.tabs.slice(),dv=P.div;startSession({title:'⚡ Times Tables',color:'#14B8A6',total:P.n,allowGuided:false,gen:()=>ttProblem(tabs,dv)});break;}
+    case 'ws-gen':{const cfg={op:P.op,strat:P.strat,n:P.n,story:P.story,space:P.space};go('sheet',{cfg,items:genSheetItems(cfg),ans:false});break;}
+    case 'ws-new':P.items=genSheetItems(P.cfg);draw();break;
+    case 'ws-ans':P.ans=!P.ans;draw();break;
+    case 'ws-print':window.print();break;
+    case 'reset':if(P.confirm){const f=defState();Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,f);save();P.confirm=false;}else P.confirm=true;draw();break;
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(CUR.screen!=='practice'||!Q||SES.finished)return;
+  if(Q.done){if(e.key==='Enter'){e.preventDefault();nextBtn();}return;}
+  if(/^[0-9]$/.test(e.key))press(e.key);
+  else if(e.key==='Backspace'){e.preventDefault();press('back');}
+  else if(e.key==='Enter'){e.preventDefault();press('ok');}
+  else if(e.key.toLowerCase()==='r')press('r');
+});
+draw();
+</script>
+</body>
+</html>

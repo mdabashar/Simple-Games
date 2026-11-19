@@ -426,6 +426,7 @@ class MenuScene extends Base {
       {key:'Beads',   label:'📿  Bead Counter',  bg:0xFB923C,tx:'#fff',x:450,y:380},
       {key:'Tracing', label:'✏️  Trace Numbers', bg:0x3B82F6,tx:'#fff',x:750,y:380},
       {key:'Rewards', label:'🏆  My Rewards',    bg:0x22C55E,tx:'#fff',x:300,y:500},
+      {key:'BigKids', label:'🚀  Year 2–3 Maths', bg:0xEC4899,tx:'#fff',x:600,y:500},
     ];
     modes.forEach((m,idx)=>this.menuBtn(m.x,m.y,m.label,m.bg,m.tx,m.key,idx*55,GS.completed[m.key]||0));
 
@@ -471,7 +472,10 @@ class MenuScene extends Base {
     c.on('pointerout',()=>this.tweens.add({targets:c,scaleX:1,scaleY:1,duration:110}));
     c.on('pointerdown',()=>{
       this.tweens.add({targets:c,scaleX:0.93,scaleY:0.93,duration:70,yoyo:true,ease:'Quad.Out',
-        onComplete:()=>{ this.cameras.main.fadeOut(280); this.time.delayedCall(280,()=>this.scene.start(scene)); }});
+        onComplete:()=>{
+          // The Year 2–3 strategies section lives on its own page
+          if(scene==='BigKids'){ window.location.href='math-strategies-year3.html'; return; }
+          this.cameras.main.fadeOut(280); this.time.delayedCall(280,()=>this.scene.start(scene)); }});
     });
   }
 }
